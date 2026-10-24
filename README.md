@@ -12,7 +12,7 @@ A January 2026 pilot for a Great Britain day-ahead electricity procurement desk.
 
 - Public repository: https://github.com/Hargun1/bbc7a6fdf5f9 (anonymous repository name).
 - Live app: **https://aeris-bbc7a6fdf5f9.vercel.app** — React frontend and Python/FastAPI backend, publicly accessible without Vercel login.
-- [Verified CI](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40112420641): 31 Python tests, React build, Docker/Python/MongoDB startup, repeat seed, and API parity passed.
+- Release 2.1: **55 Python tests and the React build passed locally**; staged and public Decision Lab/brief parity checks passed. [Current Docker/MongoDB CI](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40116915696) is still in progress at publication. The [preceding stack CI](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40112420641) passed Docker startup, repeat seed, and MongoDB parity; it does not validate this release's additions.
 - Video: the requester will record/upload the unlisted demo using `docs/demo-script.md`.
 - Submission form: pending; the required video must exist first.
 
@@ -109,6 +109,7 @@ Contains BMRS data © Elexon Limited copyright and database right 2026. Review [
 | Path | Purpose |
 | --- | --- |
 | `client/src/main.jsx`, `styles.css` | React views, charts, controls, responsive visual system |
+| `client/src/DecisionLab.jsx`, `decision-lab.css` | Revision comparison, risk replay, keyboard-accessible error atlas, and brief download |
 | `server/analytics.py` | Pure Python vintage selection, alignment, metrics, causal history |
 | `server/decision_tools.py`, `server/brief.py` | Fair policy comparisons, walk-forward buffer validation, and portable as-of reports |
 | `server/repository.py` | Snapshot/MongoDB adapter, initialization lock, cache |
