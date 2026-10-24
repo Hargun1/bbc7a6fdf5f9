@@ -13,7 +13,7 @@ A January 2026 pilot for a Great Britain day-ahead electricity procurement desk.
 - Public repository: https://github.com/Hargun1/bbc7a6fdf5f9 (anonymous repository name).
 - Live app: **https://aeris-bbc7a6fdf5f9.vercel.app** — React frontend, Python/FastAPI backend, and **MongoDB Atlas** storage, publicly accessible without Vercel login.
 - Release 2.1: **55 Python tests and the React build passed**, with staged and public Decision Lab/brief parity checks. [Docker/MongoDB CI passed](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40118053377): container startup, repeat seed, MongoDB-backed metrics, Decision Lab replay, brief parity, and frontend response.
-- Video: the requester will record/upload the unlisted demo using `docs/demo-script.md`.
+- Video: use the [simple recording script](docs/demo-script-simple.md), with plain-language narration and click instructions. It targets 9:20, with customer and technical parts under five minutes each. The earlier `docs/demo-script.md` remains available for reference.
 - Submission form: pending; the required video must exist first.
 
 ## Start locally
