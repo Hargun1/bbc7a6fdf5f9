@@ -36,7 +36,7 @@ Point to 07:30 publication, 7.93 GW average, 190.33 GWh forecast energy, and the
 
 Show `docs/architecture.md`.
 
-“The frontend is React with Recharts. The whole backend is Python: FastAPI routes, pure analytics, ingestion, MongoDB access through PyMongo, CSV exports, and brief generation. Docker builds React in a Node stage and runs Python as a non-root user. Compose starts MongoDB, waits for health, seeds idempotently, then starts the application. Vercel serves React statically and invokes the same FastAPI app. The public pilot reports snapshot storage explicitly; the MongoDB path is exercised by CI.”
+“The frontend is React with Recharts. The whole backend is Python: FastAPI routes, pure analytics, ingestion, MongoDB access through PyMongo, CSV exports, and brief generation. Docker builds React in a Node stage and runs Python as a non-root user. Compose starts MongoDB, waits for health, seeds idempotently, then starts the application. Vercel serves React statically and invokes the same FastAPI app. The public pilot reads from MongoDB Atlas through the same repository adapter; Docker uses its private MongoDB service. Health reports MongoDB, and public API results match the reference snapshot.”
 
 ### 5:15–6:10 · Data contract and core analysis
 

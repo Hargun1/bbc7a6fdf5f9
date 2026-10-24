@@ -5,7 +5,7 @@
 - Stack: React frontend and Python/FastAPI backend. All ingestion, analysis, database access, and exports are Python.
 - Visual reference: GridBricks by REint at https://reint.ai/; independent assessment branding and original implementation.
 - Public source: https://github.com/Hargun1/bbc7a6fdf5f9.
-- Public Vercel app: **https://aeris-bbc7a6fdf5f9.vercel.app**. Verified without login; the backend reports Python/FastAPI. Storage is the bundled real Elexon snapshot.
+- Public Vercel app: **https://aeris-bbc7a6fdf5f9.vercel.app**. Verified without login; the backend reports Python/FastAPI. Storage is MongoDB Atlas, seeded with the real Elexon snapshot.
 - YouTube: the requester chose to record/upload the prepared script. No video URL yet.
 - Form: not submitted. The assignment explicitly requires the video first.
 
@@ -19,8 +19,10 @@
 - `docker compose config --quiet` passed. [Python CI run 40112420641](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40112420641) passed for commit `e64d8a9`: all 31 tests, React build, Docker/Python/MongoDB startup, repeat seed, and API parity.
 - Release 2.1 source `6c97bfb` adds Decision Lab: revision comparison, common-cohort policy evaluation, P80/P90/P95 chronological replay, 744-cell error atlas, and portable as-of briefs.
 - [Release CI run 40116915696](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40116915696) completed successfully for source `6c97bfb`: 55 Python tests, React build, Docker/Python/MongoDB startup, repeat seed, MongoDB-backed API metrics, Decision Lab replay, brief parity, and frontend response.
-- Vercel production deployment `dpl_HTN7Wm9MFnpWf7jFaRcieFBMPFyQ` reached READY and was promoted after staged checks. Vercel used Python 3.13 for the API function. Public health confirms version `2.1.0`.
+- Vercel Atlas-backed production deployment `dpl_6EVGGMAwJZrm9CYEED1pV6HrKRXV` reached READY and was promoted after staged checks. Vercel used Python 3.13 for the API function. Public health confirms version `2.1.0`, Python/FastAPI, and `storage: MongoDB`.
 - Unauthenticated production checks passed for the root HTML, Python health, monthly metrics, daily profile, revisions, CSV export (744 rows), API docs, and invalid date (400). Production responses match local reference calculations.
+- Atlas release source `11ab6ad` passed [CI run 40118053377](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40118053377). Atlas connection/authentication, two seed runs, exact document counts, unique indexes, repository loading, and monthly metric parity passed. The URI is a hidden production Secret and the ignored local credential file remains outside Git, Docker context, and Vercel uploads.
+- Atlas-backed staged and public checks passed for MongoDB health, metrics, Decision Lab replay, brief identity, and frontend response. Public checks also passed for 744-row CSV export, printable P95 brief, API docs, and HTTP 400 input validation; the URI was absent from the browser HTML/main bundle.
 - New staged checks passed at P80, P90, and P95; public checks confirmed replay/brief parity and the script-free HTML attachment. The Jan 15/P95 brief has ID `abdf8c541b4d461e`.
 - Deployment-specific/team-preview URLs retain Vercel protection. Use the public production hostname above for submission.
 - Production runtime-error scan returned zero records for the recent five-minute verification window. No external log drain or alerting setup was added.

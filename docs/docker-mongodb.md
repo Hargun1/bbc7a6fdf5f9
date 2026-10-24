@@ -43,6 +43,6 @@ docker compose start mongo app
 
 ## Public app and Atlas
 
-The public Vercel deployment currently reports **Bundled Elexon snapshot**. The local Docker database is not reachable from Vercel. Using Atlas for the public API requires an Atlas database/user, appropriate network access, securely configured `MONGODB_URI`, a seed run from a trusted environment, and a new deployment. Never put the connection string in the repository or a `VITE_*` variable.
+The public Vercel deployment now reads from **MongoDB Atlas** and its health endpoint reports **MongoDB**. The URI is stored as a hidden production Secret. Two seed runs preserved 18,688 forecasts, 1,536 actuals, and one metadata document, with unique source-key indexes. Staged and public API checks passed for numerical metrics, Decision Lab replay, and brief identity. The local Docker database is independent of Atlas. Never put the connection string in the repository or a `VITE_*` variable.
 
-The same PyMongo repository/seed code supports both databases; no backend rewrite is required. Connecting Atlas is a separate deployment step and must be verified by the public health endpoint reporting MongoDB.
+The same PyMongo repository/seed code supports both databases; no backend rewrite is required. After any database configuration change, redeploy and verify that the public health endpoint still reports MongoDB. Without a configured URI, local development can use the bundled snapshot.

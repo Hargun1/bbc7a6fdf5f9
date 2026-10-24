@@ -9,19 +9,19 @@
     "stack": "React + Python / FastAPI",
     "local_python_tests": "55 passed",
     "migration_parity": "all monthly outputs and 124 day profiles passed",
-    "tested_source_commit": "6c97bfb",
-    "ci_url": "https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40116915696",
+    "tested_source_commit": "11ab6ad",
+    "ci_url": "https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40118053377",
     "ci_status": "success: 55 Python tests, frontend build, Docker/MongoDB startup, repeat seed, API metrics, Decision Lab replay, brief parity",
     "public_repository_http": 200,
     "public_readme_http": 200,
     "incognito_check": "pending",
     "vercel_deployment": "READY and promoted to production",
-    "deployment_id": "dpl_HTN7Wm9MFnpWf7jFaRcieFBMPFyQ",
+    "deployment_id": "dpl_6EVGGMAwJZrm9CYEED1pV6HrKRXV",
     "public_app_url": "https://aeris-bbc7a6fdf5f9.vercel.app",
     "public_app_http": 200,
     "backend": "Python / FastAPI",
-    "storage": "Bundled Elexon snapshot",
-    "public_api_verification": "passed: version 2.1.0, metrics, Decision Lab replay, brief JSON parity, script-free HTML attachment",
+    "storage": "MongoDB",
+    "public_api_verification": "passed: MongoDB health, reference metrics, Decision Lab replay, brief JSON identity, script-free HTML, CSV, docs, validation, React assets without URI",
     "youtube": "requester will record and upload",
     "version": "2.1.0",
     "preceding_stack_ci": "https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40112420641 (success on earlier commit e64d8a9)",
@@ -40,6 +40,16 @@
       "actual_documents": 1536,
       "metadata_documents": 1,
       "persistence": "named volume retained data through MongoDB container recreation"
+    },
+    "storage_provider": "MongoDB Atlas",
+    "atlas": {
+      "seed_runs": 2,
+      "forecast_documents": 18688,
+      "actual_documents": 1536,
+      "metadata_documents": 1,
+      "unique_source_indexes": true,
+      "secret_storage": "Vercel production Secret",
+      "staged_and_public_verification": "passed"
     }
   }
 }
