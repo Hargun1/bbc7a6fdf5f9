@@ -1,5 +1,7 @@
 # Aeris — day-ahead wind intelligence
 
+[![Verify](https://github.com/Hargun1/bbc7a6fdf5f9/actions/workflows/check.yml/badge.svg)](https://github.com/Hargun1/bbc7a6fdf5f9/actions/workflows/check.yml)
+
 A January 2026 pilot for a Great Britain electricity procurement desk. Replay the wind forecast available at a decision cutoff, then evaluate that same forecast against Elexon actuals.
 
 **Stack:** MongoDB, Express 5, React 19, Node.js 22+. The requester subsequently preferred MERN over the assignment's original Python backend requirement; the implementation follows that updated instruction. There is no Python runtime dependency.
@@ -11,6 +13,7 @@ A January 2026 pilot for a Great Britain electricity procurement desk. Replay th
 | Deliverable | Status |
 | --- | --- |
 | Working application | Implemented; local development URL: http://127.0.0.1:5173 |
+| Full-stack verification | [CI passed](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40109487897): 16 tests, React build, Docker startup, repeat seed, MongoDB/API parity |
 | Public Vercel/Heroku URL | Pending authenticated deployment; no public URL has been created |
 | Public GitHub repository | [Hargun1/bbc7a6fdf5f9](https://github.com/Hargun1/bbc7a6fdf5f9) · anonymous repository name |
 | Unlisted YouTube demo | Requester will record/upload; timed script in `docs/demo-script.md` |
@@ -169,7 +172,7 @@ For the separate MongoDB path, start the Compose stack first. This checks the re
 npm run test:mongo
 ```
 
-See `docs/submission.md` for the actual environment verification record. Do not assume Docker runtime, browser layout, or deployment checks succeeded just because configuration files exist.
+The [verified CI run](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40109487897) passed the 16-test suite, frontend build, Docker image build and full-stack startup, a repeated seed, and MongoDB-backed API parity. Local Docker engine access was unavailable, so container runtime verification was completed on GitHub's runner instead. Browser layout and public hosting remain unverified. See `docs/submission.md` for the detailed record.
 
 ## Deploy on Vercel
 

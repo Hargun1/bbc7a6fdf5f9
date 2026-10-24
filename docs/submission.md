@@ -8,6 +8,7 @@
 - Unlisted YouTube video URL: **not created yet**. The requester chose to record the prepared script themselves.
 - Microsoft form: **not submitted**. The assignment explicitly requires the video before submission.
 - Private/incognito public-access verification: **pending the three published URLs**.
+- Unauthenticated HTTP access to the public repository and raw README: **verified, both HTTP 200**. This is recorded separately from the requested incognito browser check, which has not occurred.
 
 The existing local GitHub credential was verified for account Hargun1 and used to create the public repository. Vercel's integration is not connected and no local Vercel credential was found. The requester will record/upload the video. Do not substitute fake links or mark this assignment submitted.
 
@@ -16,10 +17,11 @@ The existing local GitHub credential was verified for account Hargun1 and used t
 - Real Elexon snapshot downloaded and provenance hashes recorded.
 - Analytics/API tests: 16 passing on the initial check, covering causal selection, alignment, metrics, risk history, date boundaries, validation, CSV, and revisions.
 - Vite production build: passed.
-- Local standalone MongoDB test binary download failed with `getaddrinfo ENOTFOUND fastdl.mongodb.org`. That temporary test dependency was removed. `npm run test:mongo` now checks the real Compose application, and GitHub Actions is configured to run that stack and verify idempotent seeding.
+- **Full-stack CI passed:** [run 40109487897](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40109487897), tested source commit `edcabf8`. This includes `npm ci`, all 16 tests, the production React build, Docker image build and Compose startup, a second idempotent seed, and the MongoDB-backed API/frontend integration check. The final documentation-only commit records these results.
+- A local standalone MongoDB test binary download failed with `getaddrinfo ENOTFOUND fastdl.mongodb.org`; that temporary test dependency was removed. The successful CI check uses the real Compose stack instead.
 - Local React frontend and Express API: started; frontend HTTP 200 verified.
 - `docker compose config --quiet`: passed.
-- Docker runtime: `docker compose -p aeris-pilot build` could not connect to `//./pipe/dockerDesktopLinuxEngine`, even after Docker Desktop was started. The image build and Compose startup are **not verified** in this environment; the CI workflow includes a Docker build.
+- Local Docker runtime: `docker compose -p aeris-pilot build` could not connect to `//./pipe/dockerDesktopLinuxEngine`, even after Docker Desktop was started. The image build and Compose startup were subsequently **verified successfully in CI**, as above.
 - Browser automation: unavailable in this session. Responsive layout and browser interactions are implemented but must not be represented as visually verified.
 
 ## Publish and verify

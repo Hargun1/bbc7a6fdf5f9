@@ -4,5 +4,15 @@
     "html_url": "https://github.com/Hargun1/bbc7a6fdf5f9",
     "clone_url": "https://github.com/Hargun1/bbc7a6fdf5f9.git",
     "private": false
+  },
+  "verification": {
+    "tested_source_commit": "edcabf8",
+    "ci_url": "https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40109487897",
+    "conclusion": "success",
+    "public_repository_http": 200,
+    "public_readme_http": 200,
+    "incognito_check": "pending",
+    "vercel_deployment": "pending account connection",
+    "youtube": "requester will record and upload"
   }
 }
