@@ -11,7 +11,7 @@
     "migration_parity": "all monthly outputs and 124 day profiles passed",
     "tested_source_commit": "6c97bfb",
     "ci_url": "https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40116915696",
-    "ci_status": "in_progress at publication; no current-release Docker/MongoDB success claimed",
+    "ci_status": "success: 55 Python tests, frontend build, Docker/MongoDB startup, repeat seed, API metrics, Decision Lab replay, brief parity",
     "public_repository_http": 200,
     "public_readme_http": 200,
     "incognito_check": "pending",
@@ -31,6 +31,15 @@
       "chronological P80/P90/P95 validation",
       "744-cell error atlas with audit drill-down",
       "printable as-of decision brief"
-    ]
+    ],
+    "local_docker": {
+      "status": "passed: build, startup, MongoDB health, repeat seed, API parity",
+      "url": "http://localhost:3001",
+      "storage": "MongoDB",
+      "forecast_documents": 18688,
+      "actual_documents": 1536,
+      "metadata_documents": 1,
+      "persistence": "named volume retained data through MongoDB container recreation"
+    }
   }
 }

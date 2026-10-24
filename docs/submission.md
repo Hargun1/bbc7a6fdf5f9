@@ -13,11 +13,12 @@
 
 - 55 Python tests passed locally: analytics, causal history, time boundaries, ingestion validation/conflicts, API validation, revision audit, CSV, common-cohort comparison, chronological risk evaluation, and future-actual isolation of decision briefs.
 - React production build passed.
+- Local Docker Desktop stack verified on 24 October 2026: `aeris-app-1` serves React/Python at http://localhost:3001 with `storage: MongoDB`; `aeris-mongo-1` passes its health check. Seeding twice preserved 18,688 forecast records, 1,536 actuals, and 1 metadata document. The MongoDB-backed API passed metrics, Decision Lab replay, brief identity, and frontend checks. The named volume retained data through MongoDB container recreation. See `docs/docker-mongodb.md`.
 - Migration parity passed for every monthly output and 124 decision-day profiles across all four cutoffs.
 - Local FastAPI health returned HTTP 200 with `backend: Python / FastAPI` and `storage: Bundled Elexon snapshot`.
 - `docker compose config --quiet` passed. [Python CI run 40112420641](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40112420641) passed for commit `e64d8a9`: all 31 tests, React build, Docker/Python/MongoDB startup, repeat seed, and API parity.
 - Release 2.1 source `6c97bfb` adds Decision Lab: revision comparison, common-cohort policy evaluation, P80/P90/P95 chronological replay, 744-cell error atlas, and portable as-of briefs.
-- [Current CI run 40116915696](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40116915696) is in progress at publication; the feature-branch run also remains in progress. No current-release Docker/MongoDB success is claimed.
+- [Release CI run 40116915696](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40116915696) completed successfully for source `6c97bfb`: 55 Python tests, React build, Docker/Python/MongoDB startup, repeat seed, MongoDB-backed API metrics, Decision Lab replay, brief parity, and frontend response.
 - Vercel production deployment `dpl_HTN7Wm9MFnpWf7jFaRcieFBMPFyQ` reached READY and was promoted after staged checks. Vercel used Python 3.13 for the API function. Public health confirms version `2.1.0`.
 - Unauthenticated production checks passed for the root HTML, Python health, monthly metrics, daily profile, revisions, CSV export (744 rows), API docs, and invalid date (400). Production responses match local reference calculations.
 - New staged checks passed at P80, P90, and P95; public checks confirmed replay/brief parity and the script-free HTML attachment. The Jan 15/P95 brief has ID `abdf8c541b4d461e`.

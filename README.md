@@ -12,7 +12,7 @@ A January 2026 pilot for a Great Britain day-ahead electricity procurement desk.
 
 - Public repository: https://github.com/Hargun1/bbc7a6fdf5f9 (anonymous repository name).
 - Live app: **https://aeris-bbc7a6fdf5f9.vercel.app** — React frontend and Python/FastAPI backend, publicly accessible without Vercel login.
-- Release 2.1: **55 Python tests and the React build passed locally**; staged and public Decision Lab/brief parity checks passed. [Current Docker/MongoDB CI](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40116915696) is still in progress at publication. The [preceding stack CI](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40112420641) passed Docker startup, repeat seed, and MongoDB parity; it does not validate this release's additions.
+- Release 2.1: **55 Python tests and the React build passed**, with staged and public Decision Lab/brief parity checks. [Docker/MongoDB CI passed](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40116915696): container startup, repeat seed, MongoDB-backed metrics, Decision Lab replay, brief parity, and frontend response.
 - Video: the requester will record/upload the unlisted demo using `docs/demo-script.md`.
 - Submission form: pending; the required video must exist first.
 
@@ -45,7 +45,7 @@ Requires Docker Engine/Desktop with Linux containers and Compose v2.
 docker compose up --build
 ```
 
-Open http://localhost:3001. Compose starts MongoDB 7, waits for health, seeds with an idempotent Python service, then starts the application. The multi-stage image builds React with Node and uses a non-root Python production runtime. MongoDB is not exposed on a host port and uses a named volume.
+Open http://localhost:3001. See [the Docker/MongoDB runbook](docs/docker-mongodb.md) for background startup, verification, database counts, and stop/start commands. Compose uses the fixed project name `aeris`, starts MongoDB 7, waits for health, seeds with an idempotent Python service, then starts the application. The multi-stage image builds React with Node and uses a non-root Python production runtime. MongoDB is not exposed on a host port and uses a named volume.
 
 ```sh
 docker compose down
