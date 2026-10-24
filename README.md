@@ -1,188 +1,145 @@
-# Aeris — day-ahead wind intelligence
+# Aeris — React + Python wind intelligence
 
-[![Verify](https://github.com/Hargun1/bbc7a6fdf5f9/actions/workflows/check.yml/badge.svg)](https://github.com/Hargun1/bbc7a6fdf5f9/actions/workflows/check.yml)
+A January 2026 pilot for a Great Britain day-ahead electricity procurement desk. Replay the wind forecast available at a decision cutoff and evaluate that same forecast against Elexon actuals.
 
-A January 2026 pilot for a Great Britain electricity procurement desk. Replay the wind forecast available at a decision cutoff, then evaluate that same forecast against Elexon actuals.
+**Stack:** React 19, Vite and Recharts frontend; Python 3.13 and FastAPI backend; optional MongoDB via PyMongo. All analytics, ingestion, seeding, exports, and HTTP endpoints are Python. Node.js is used only for frontend build tooling.
 
-**Stack:** MongoDB, Express 5, React 19, Node.js 22+. The requester subsequently preferred MERN over the assignment's original Python backend requirement; the implementation follows that updated instruction. There is no Python runtime dependency.
+**AI disclosure:** OpenAI Codex assisted with domain research, visual design, implementation, documentation, and tests. Numerical data comes from the two specified Elexon APIs, never synthetic generation data.
 
-**AI disclosure:** OpenAI Codex was used for domain research, design, implementation, documentation, and test development. Numerical data comes from the specified Elexon APIs, not generated or simulated data.
+**Visual reference:** [GridBricks by REint AI](https://reint.ai/): warm neutral surfaces, charcoal text, Inter typography, editorial serif headlines, green accents, and restrained analytical interfaces. Aeris is an independent assessment pilot, not an official GridBricks product or a copy of its private portal.
 
-## Delivery status
+## Delivery
 
-| Deliverable | Status |
-| --- | --- |
-| Working application | Implemented; local development URL: http://127.0.0.1:5173 |
-| Full-stack verification | [CI passed](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40109487897): 16 tests, React build, Docker startup, repeat seed, MongoDB/API parity |
-| Public Vercel/Heroku URL | Pending authenticated deployment; no public URL has been created |
-| Public GitHub repository | [Hargun1/bbc7a6fdf5f9](https://github.com/Hargun1/bbc7a6fdf5f9) · anonymous repository name |
-| Unlisted YouTube demo | Requester will record/upload; timed script in `docs/demo-script.md` |
-| Submission form | Not submitted; do not submit until the video and all public links exist |
+- Public repository: https://github.com/Hargun1/bbc7a6fdf5f9 (anonymous repository name).
+- Vercel: Python deployment being verified; see `docs/publication.json` for the final URL.
+- Video: the requester will record/upload the unlisted demo using `docs/demo-script.md`.
+- Submission form: pending; the required video must exist first.
 
-The app and video links remain pending. Localhost is not a submission URL. No hosted deployment or recording is claimed here.
+## Start locally
 
-## Run locally
-
-Prerequisites: Node.js 22+ and npm. No API key is needed. The checked-in Elexon snapshot makes the pilot reproducible and independent of upstream availability.
+Prerequisites: Python 3.13, Node.js 22+, npm. The checked-in real Elexon snapshot supports startup without an API key or database account.
 
 ```sh
+python -m pip install -r requirements-dev.txt
 npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5173. Vite proxies `/api` to Express on port 3001.
+Open http://127.0.0.1:5173. Vite proxies `/api` to FastAPI on port 3001. Interactive Python API documentation is at http://127.0.0.1:3001/api/docs.
 
-For a production build:
+Production locally:
 
 ```sh
 npm run build
 npm start
 ```
 
-Open http://127.0.0.1:3001. Express serves the compiled React app and API from one origin.
+Open http://127.0.0.1:3001. Uvicorn serves the Python API and compiled React files.
 
-With no `MONGODB_URI`, the API explicitly reports **Bundled Elexon snapshot** storage. This is the zero-setup reviewer mode, not a pretend database connection. When `MONGODB_URI` is configured, the API requires MongoDB and returns a data-unavailable error on failure; it does not silently switch storage.
+## Docker: React + Python + MongoDB
 
-## Run the full MERN stack with Docker
-
-Prerequisites: Docker Engine/Desktop running with Linux containers, and Docker Compose v2.
+Requires Docker Engine/Desktop with Linux containers and Compose v2.
 
 ```sh
 docker compose up --build
 ```
 
-Open http://localhost:3001. Compose starts MongoDB 7, waits for its health check, seeds the real snapshot using an idempotent one-shot service, then starts Express/React. MongoDB uses a named volume and is not exposed on a host port. The application runs as a non-root user.
+Open http://localhost:3001. Compose starts MongoDB 7, waits for health, seeds with an idempotent Python service, then starts the application. The multi-stage image builds React with Node and uses a non-root Python production runtime. MongoDB is not exposed on a host port and uses a named volume.
 
 ```sh
 docker compose down
 ```
 
-The database volume is retained. To run MongoDB separately, set `MONGODB_URI` in the shell, then `npm run seed` and `npm start`. Example in PowerShell:
+The volume is retained. For an external database, set `MONGODB_URI` and run `python -m scripts.seed`. Restart the API after seeding: this fixed January pilot caches its data in process.
 
-```powershell
-$env:MONGODB_URI = 'mongodb://127.0.0.1:27017/aeris'
-npm run seed
-npm start
-```
+Without a URI, the API/UI report **Bundled Elexon snapshot**. Configured database failures return 503 rather than silently changing storage. `.env.example` lists settings; local commands do not auto-load `.env` files. Set variables in the shell, Compose, or Vercel.
 
-`.env.example` documents supported settings. `.env` files are not auto-loaded: set environment variables in your shell, Compose, or hosting provider. Restart the API after reseeding: the small, immutable pilot dataset is cached in process.
+## Product workflow
 
-## What the product does
-
-- **Day-ahead desk:** choose a January decision date and cutoff; view the D+1 wind profile, energy, peak, forecast age, coverage, empirical shortfall scenario, and hourly publication audit. Actuals remain hidden until explicitly revealed as hindsight.
-- **Forecast accuracy:** 31 decision-day scorecards, daily MAE, hourly bias, MAE/RMSE/bias/WAPE, P90 absolute error, and paired-data coverage. Change the cutoff to compare decision policies.
-- **Data & provenance:** actual storage mode, source counts and request URLs, raw-response SHA-256 checksums, and all retained forecast vintages for a selected target hour, including records excluded by the cutoff.
-- **Methodology:** temporal selection, units, aggregation, risk assumptions, and pilot limitations.
-- **CSV:** export one delivery day or all 744 evaluation hours with forecast/actual publication times, selected cutoff, lead time, error, and retrieval timestamp. Actual columns are retrospective even when the chart's hindsight toggle is off.
+- **Day-ahead desk:** decision date, D+1 delivery, cutoff, wind profile, energy, peak, forecast age, historical shortfall scenario, and hourly audit. Actuals stay hidden until revealed as hindsight.
+- **Forecast accuracy:** MAE/RMSE/bias/WAPE, P90 absolute error, daily scorecards, daily errors, hourly bias, and paired coverage. Change cutoff to compare information policies.
+- **Data & provenance:** source counts, actual storage mode, requests/hashes, and all retained forecast vintages, including those excluded by cutoff.
+- **Methodology:** selection, aggregation, units, assumptions, and pilot boundaries.
+- **CSV:** daily/monthly export includes cutoff, decision date, target time, forecast and actual publication times, lead time, error, and retrieval timestamp. Actual columns are retrospective even when hidden in the chart.
 
 ## Analysis contract
 
-1. **Window:** January means **decision dates 1–31 January 2026**, hence **delivery dates 2 January–1 February 2026**. January 1 delivery would require a December decision and is outside the evaluation. January 1 actuals and December 31 forecasts are retained as boundary context, not used as pre-January calibration history.
-2. **Time:** all timestamps are parsed in UTC; the UI labels Europe/London. The evaluated dates are GMT, so no daylight-saving transition occurs. This implementation deliberately validates only this assignment window; it is not a general DST calendar engine.
-3. **Cutoff:** default 09:00 GMT is a pilot desk assumption, not a claim about a universal UK auction deadline. Alternatives are 09:20, 09:50, and 15:00 for sensitivity analysis. Confirm venue and an operational submission buffer with the client. The selector is inclusive: `publishTime <= cutoff`.
-4. **Forecast vintage:** for **each target hour**, select the latest eligible WINDFOR publication, rather than the latest forecast retrieved today. Different target hours may therefore legitimately have different publication times.
-5. **Resolution:** actual retrieved WINDFOR records are hourly. FUELHH is half-hourly, filtered strictly to `fuelType === 'WIND'`. Align to forecast-native hours using the mean of the two corresponding half-hour actual MW readings. No linear interpolation or forward filling is introduced.
-6. **Units:** power is MW (charts also show GW). One hourly MW forecast × 1 hour is MWh; summing a full 24 hours gives daily energy. Partial-day energy is not presented as a full-day total.
-7. **Missing data:** null remains null; zero is valid. Both half-hours are required for an actual hour. Metrics include paired hours only, with coverage stated explicitly. Same target/publication duplicates are deduplicated; conflicting source values at identical keys abort ingestion.
-8. **Revisions:** actuals use the latest retrieved revision per half-hour, with the maximum of their publication timestamps carried to the hourly result. This is a historical extraction, not an independently archived record of API availability in January. `publishTime` is a source availability proxy; network/ingestion latency is not modelled. A production system should retain observed-at times and all actual revisions for stronger point-in-time replay.
-9. **Error:** `forecast − actual`. Positive means overforecast wind, hence potential supply shortfall. MAE = mean absolute error; RMSE = square root of mean squared error; bias = mean signed error. WAPE = `100 × Σ|error| / Σ|actual|`; a zero denominator returns null. Percentiles use linear interpolation between ordered observations.
-10. **Risk scenario:** `buffer = max(0, P90(signed errors))`, computed from completed earlier delivery days in this January sample, and only actuals with publication timestamps no later than the selected decision cutoff. Minimum 48 paired hours. The lower wind scenario is `max(0, forecast − buffer)`. This is an empirical scenario, not a confidence interval or guarantee. There is no pre-January training history; the first decisions correctly lack a buffer.
+1. **Window:** decision dates 1–31 January 2026, hence delivery 2 January–1 February. January 1 delivery requires a December decision and is not evaluated. Boundary records are retained, but no pre-January calibration errors are used.
+2. **Time:** UTC source timestamps, Europe/London UI labels. This window is entirely GMT; validation deliberately limits the app to January 2026.
+3. **Cutoff:** 09:00 GMT is an explicit desk assumption, not a universal auction deadline. Alternatives 09:20, 09:50, and 15:00 are sensitivity scenarios. Confirm venue and submission lead time with the client.
+4. **Vintage:** for each target hour, select the latest WINDFOR record with `publishTime <= cutoff`. Never use the latest forecast retrieved today. Different target hours may legitimately have different publication times.
+5. **Alignment:** retrieved WINDFOR is hourly. FUELHH is half-hourly, strictly filtered to WIND. Actual hourly MW is the mean of both half-hours; both are required. No interpolation or forward filling.
+6. **Units/gaps:** MW is power; hourly MW times one hour is MWh. Energy is only shown for a complete day. Null stays null, zero is valid, and only paired hours enter metrics. Conflicting identical source keys abort ingestion.
+7. **Revisions:** actuals use the latest retrieved revision and carry the latest contributing publication timestamp. This historical extraction is not an independent app-observed January archive. Source publication is an availability proxy; production replay needs observed-at times and revision history.
+8. **Error:** `forecast - actual`; positive means overforecast wind. MAE measures absolute miss, RMSE emphasises large misses, bias measures direction. WAPE is `100 * sum(abs(error)) / sum(abs(actual))`, returning null on a zero denominator. Percentiles interpolate linearly.
+9. **Risk scenario:** with at least 48 pairs, buffer is `max(0, P90(signed errors))` from completed earlier delivery days, with actual publication no later than cutoff. Lower scenario is `max(0, forecast - buffer)`. This pooled empirical scenario is not a calibrated prediction interval or guarantee. Early January correctly lacks history.
+10. **Scope:** operationally metered Elexon wind is not all UK wind/renewables or a utility portfolio. No demand, prices, contracts, allocation, or other generation is ingested. These two series cannot determine a purchase volume alone.
 
-### Pilot findings at 09:00 GMT
+### Reproducible 09:00 GMT findings
 
-The checked-in extraction covers all **744/744** evaluation hours. Reproduce these numbers with `node scripts/report.js`:
-
-| Metric | Value |
+| Metric | Result |
 | --- | ---: |
+| Matched pairs | 744 / 744 |
 | MAE | 2,038.91 MW |
 | RMSE | 2,504.76 MW |
-| Bias (forecast minus actual) | +1,747.89 MW |
+| Bias | +1,747.89 MW |
 | WAPE | 18.07% |
 | P90 absolute error | 4,097.90 MW |
 
-The positive bias suggests a material overforecast tendency in this January sample. This is descriptive evidence for reviewing wind assumptions, not proof of a stable future bias or a recommended fixed hedge. For the 15 January decision, the 24 forecasts were published at 07:30 GMT; mean forecast is 7.93 GW, energy 190.33 GWh, and the prior-history empirical shortfall buffer is 4.38 GW from 312 hourly pairs.
+Reproduce with `python -m scripts.report`. Positive bias is descriptive evidence for this sample, not a stable future hedge. On the 15 January decision: publication 07:30 GMT, mean 7.93 GW, energy 190.33 GWh, and historical buffer 4.38 GW from 312 earlier pairs.
 
-**Scope limitation:** the Elexon series covers operationally metered wind visible to the system operator. It is not all UK renewable generation or a utility's contracted share. No demand, prices, other generation, or portfolio commitments are ingested. A purchase volume cannot be inferred from these two datasets alone.
+## Data and refresh
 
-## Source data and refresh
+Only [WINDFOR](https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/WINDFOR/stream) and [FUELHH](https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELHH/stream), filtered to WIND, supply numbers. [Elexon's guidance](https://bmrs.elexon.co.uk/wind-generation) explains resolution and metering coverage.
 
-Only these datasets supply numerical data:
-
-- [FUELHH stream documentation](https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELHH/stream), filtered to WIND.
-- [WINDFOR stream documentation](https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/WINDFOR/stream), preserving forecast vintages.
-- [Elexon wind-generation guidance](https://bmrs.elexon.co.uk/wind-generation), explaining the forecast's hourly resolution and operational-metering coverage.
-
-Data is a fixed historical snapshot, retrieved on 24 October 2026; exact UTC retrieval time and request hashes are in `data/snapshot.json`. It contains 18,688 normalized forecast records and 1,536 WIND half-hour observations. Raw FUELHH includes other fuels and duplicate keys; the normalized file retains WIND only. Source response counts are recorded before filtering/deduplication.
+`data/snapshot.json` has 18,688 normalized forecast records and 1,536 WIND half-hours, retrieved on 24 October 2026. Exact UTC extraction time, requests, pre-filter counts, and raw-response SHA-256 hashes are in metadata.
 
 ```sh
-npm run ingest
+python -m scripts.ingest
 ```
 
-Ingestion downloads the two stream responses with timeouts/retries, validates them, saves ignored raw files under `data/raw`, and atomically replaces the snapshot only after both succeed. It needs internet access and does not refresh the UI automatically. Rerun `npm run seed` for MongoDB and restart the API after an intentional refresh. Rebuilding/redeploying is needed to update a bundled Vercel snapshot.
+Ingestion has timeouts/retries, validates/deduplicates, saves ignored raw responses, and atomically replaces the snapshot only after success. Reseed/restart MongoDB, or rebuild/redeploy the bundled snapshot after refreshing.
 
-Contains BMRS data © Elexon Limited copyright and database right 2026. Review [Elexon's published data terms](https://bmrs.elexon.co.uk/) before wider redistribution.
+Contains BMRS data © Elexon Limited copyright and database right 2026. Review [Elexon's terms](https://bmrs.elexon.co.uk/) before wider redistribution.
 
 ## Files and directories
 
 | Path | Purpose |
 | --- | --- |
-| `client/src/main.jsx` | React screens, controls, charts, data loading, and CSV actions |
-| `client/src/styles.css` | Responsive visual system and accessible focus/reduced-motion styles |
-| `client/index.html` | React HTML entrypoint |
-| `server/analytics.js` | Pure forecast selection, hourly matching, metrics, and causal risk history |
-| `server/repository.js` | Explicit snapshot/MongoDB loading and in-process cache |
-| `server/app.js` | Express HTTP routes, validation, errors, static hosting, and CSV export |
-| `server/index.js` | Local/container server entrypoint |
-| `api/index.js` | Vercel serverless entrypoint for the same Express app |
-| `scripts/ingest.js` | Reproducible source acquisition, validation, deduplication, and hashing |
-| `scripts/seed.js` | Idempotent MongoDB indexes and keyed upserts |
-| `scripts/report.js` | Reproduce analysis figures without the UI |
-| `data/snapshot.json` | Checked-in real historical data and provenance metadata |
-| `tests/` | Meaningful analytics, API, and optional MongoDB integration checks |
-| `docs/architecture.md` | Technical review and design tradeoffs |
-| `docs/demo-script.md` | Two-part, under-ten-minute demo narration and click path |
-| `docs/submission.md` | Honest publication status and access-verification instructions |
-| `Dockerfile`, `compose.yaml` | Non-root production image and full MERN orchestration |
-| `vercel.json` | React build and Express API routing for Vercel |
-| `.github/workflows/check.yml` | Dependency installation, tests, frontend build, Docker build |
+| `client/src/main.jsx`, `styles.css` | React views, charts, controls, responsive visual system |
+| `server/analytics.py` | Pure Python vintage selection, alignment, metrics, causal history |
+| `server/repository.py` | Snapshot/MongoDB adapter, initialization lock, cache |
+| `server/app.py` | FastAPI routes, validation, CSV, static hosting, API docs |
+| `api/index.py` | Vercel ASGI entrypoint for the same app |
+| `scripts/ingest.py` | Acquisition, validation, hashing, atomic replacement |
+| `scripts/seed.py` | Idempotent PyMongo indexes and keyed upserts |
+| `scripts/report.py` | Reproduce pilot statistics |
+| `scripts/verify_deployment.py` | Check deployed Python API, data, storage, and frontend |
+| `data/snapshot.json` | Real Elexon records and provenance |
+| `tests/test_analytics.py`, `test_api.py` | 31 Python analytic, ingestion, and API tests |
+| `docs/` | Architecture, recording script, publication/access verification |
+| `requirements*.txt`, `pyproject.toml`, `.python-version` | Python dependencies and configuration |
+| `package*.json`, `vite.config.js` | Frontend dependencies and development/build commands |
+| `Dockerfile`, `compose.yaml` | Non-root Python runtime and MongoDB orchestration |
+| `vercel.json` | React static build plus Python API routing |
+| `.github/workflows/check.yml` | Tests, build, Docker startup, repeat seed, MongoDB parity |
 
-## API
+## API and checks
 
-| Route | Query parameters | Purpose |
-| --- | --- | --- |
-| `GET /api/health` | none | Storage and snapshot health |
-| `GET /api/overview` | `date`, `cutoff` | D+1 profile, audit fields, causal buffer |
-| `GET /api/accuracy` | `cutoff` | Month metrics, daily and hourly breakdowns |
-| `GET /api/revisions` | `date`, `cutoff`, `hour` | All retained vintages for one target hour |
-| `GET /api/export` | `date`, `cutoff`, `scope=day\|month` | Auditable CSV |
-
-Defaults are `date=2026-01-15`, `cutoff=09:00`, `hour=12`. Invalid date, time, or hour returns JSON HTTP 400; unavailable data returns 503. No mutation or trading endpoints are exposed. The public pilot contains public source data only.
-
-## Validation
+GET `/api/health`, `/api/overview?date=2026-01-15&cutoff=09:00`, `/api/accuracy?cutoff=09:00`, `/api/revisions?hour=12`, `/api/export?scope=month`. Interactive docs: `/api/docs`. Invalid inputs/duplicates return JSON 400; unavailable data returns 503. No public mutation/trading endpoints.
 
 ```sh
 npm run check
 ```
 
-Tests cover inclusive cutoff selection, future forecast exclusion, hour/half-hour aggregation, missing data, valid zeros, metric direction/units, percentile interpolation, January/February boundaries, absent early history, actual publication availability, all snapshot selections, API errors, CSV audit fields, and revision eligibility. The frontend production build is included. Dependency versions are fixed in `package-lock.json`.
+Runs Python tests and the React production build. Checks cover causal selection, alignment, gaps, zeros, metric signs/units, date boundaries, history, real-data invariants, ingestion conflicts/invalid values, API validation, revisions, and CSV audit fields. Migration additionally compared all monthly outputs and 124 decision-day profiles across four cutoffs against the former implementation; all matched within floating-point tolerance.
 
-For the separate MongoDB path, start the Compose stack first. This checks the real container-hosted API, MongoDB storage mode, seeded record counts, metrics parity, and frontend delivery:
+With the real Compose stack running, `npm run test:mongo` checks Python backend identity, MongoDB storage, record counts, numerical parity, and React HTML. CI also repeats seeding. See `docs/submission.md` for actual completed checks.
 
-```sh
-npm run test:mongo
-```
+## Vercel
 
-The [verified CI run](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40109487897) passed the 16-test suite, frontend build, Docker image build and full-stack startup, a repeated seed, and MongoDB-backed API parity. Local Docker engine access was unavailable, so container runtime verification was completed on GitHub's runner instead. Browser layout and public hosting remain unverified. See `docs/submission.md` for the detailed record.
+Project: `hargun1s-projects/aeris-bbc7a6fdf5f9`. Vercel serves `dist` and routes `/api/*` to the FastAPI ASGI app in `api/index.py`. No Express/Node backend remains.
 
-## Deploy on Vercel
+The public pilot supports the bundled authentic Elexon snapshot. For Atlas, configure `MONGODB_URI` as a protected production variable, seed from a trusted environment, and redeploy. Never commit credentials or Vercel-generated environment files.
 
-The same Express app is exported as a Vercel Node function; Vite produces the static frontend. No second backend service or CORS configuration is needed.
-
-1. Use the [public source repository](https://github.com/Hargun1/bbc7a6fdf5f9).
-2. Import that repository in Vercel, using the repository root. `vercel.json` sets the build command and output directory.
-3. For a true hosted MERN deployment, configure `MONGODB_URI` with a dedicated Atlas database user; run the seed command against that URI from a trusted local shell. Use the provider's recommended network access controls. Never commit a URI containing credentials.
-4. Alternatively omit the URI for the explicit, reproducible bundled-snapshot demo mode. The UI reports its storage accurately.
-5. Deploy, open `/api/health`, exercise every page, and replace the pending links at the top of this README.
-6. Verify production access without a Vercel login; review the project's deployment-protection settings if required. Vercel runs Node functions, not the Docker image; Docker is the equivalent full-stack local/self-hosted path.
-
-Vercel and YouTube publication still require the owner's authenticated accounts. No public app or video URL can be truthfully supplied before those actions succeed.
+Record/upload the under-ten-minute video, then test the exact app, repository, and video URLs in incognito before submitting the assignment form. Recording and submission remain pending.

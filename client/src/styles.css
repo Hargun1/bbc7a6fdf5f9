@@ -1,14 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&family=Instrument+Serif:ital@0;1&display=swap");
 :root {
-  font-family: "DM Sans", sans-serif;
-  color: #253d35;
-  background: #f7f8f4;
+  font-family: "Inter", sans-serif;
+  color: #2b2a2a;
+  background: #fcfcfc;
   font-synthesis: none;
   font-weight: 400;
-  --green: #267b65;
-  --dark: #153e35;
-  --muted: #7c8a83;
-  --border: #e4e9e1;
+  --green: #148937;
+  --dark: #2b2a2a;
+  --muted: #7a776e;
+  --border: #e8e7e3;
 }
 * {
   box-sizing: border-box;
@@ -61,8 +61,8 @@ button:focus:not(:focus-visible) {
   position: fixed;
   inset: 0 auto 0 0;
   width: 238px;
-  background: #153c33;
-  color: #c3d0c7;
+  background: #f8f8f6;
+  color: #5a5856;
   display: flex;
   flex-direction: column;
   z-index: 20;
@@ -73,7 +73,7 @@ button:focus:not(:focus-visible) {
   display: flex;
   align-items: center;
   gap: 9px;
-  color: #f1f5e9;
+  color: #2b2a2a;
   font-size: 39px;
   font-family: Manrope, sans-serif;
   font-weight: 650;
@@ -84,10 +84,10 @@ button:focus:not(:focus-visible) {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #d6e3b0;
+  color: #148937;
 }
 .brand-dot {
-  font: 11px "DM Sans";
+  font: 11px "Inter";
   margin-left: -5px;
   align-self: flex-start;
   margin-top: 8px;
@@ -96,7 +96,7 @@ button:focus:not(:focus-visible) {
   font-size: 9px;
   letter-spacing: 1.8px;
   padding: 33px 13px 20px;
-  color: #85a195;
+  color: #7a776e;
   display: flex;
   justify-content: space-between;
 }
@@ -114,7 +114,7 @@ nav {
 }
 .nav-item {
   background: transparent;
-  color: #a9c0b2;
+  color: #7a776e;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -126,17 +126,17 @@ nav {
   white-space: nowrap;
 }
 .nav-item.active {
-  background: #2b5141;
-  color: #eaf1cd;
+  background: #eaf3e8;
+  color: #148937;
 }
 .nav-item:hover {
-  background: #294c3f;
+  background: #efefea;
 }
 .nav-dot {
   margin-left: auto;
   width: 5px;
   height: 5px;
-  background: #cedd9e;
+  background: #148937;
   border-radius: 50%;
 }
 .side-bottom {
@@ -148,7 +148,7 @@ nav {
   position: relative;
   display: flex;
   align-items: center;
-  color: #aec49c;
+  color: #148937;
   overflow: hidden;
 }
 .orbit {
@@ -172,11 +172,11 @@ nav {
   font-weight: 700;
 }
 .side-bottom .tiny-label {
-  color: #9eb58a;
+  color: #7a776e;
 }
 .side-bottom h3 {
   font-family: Manrope, sans-serif;
-  color: #e9eedb;
+  color: #2b2a2a;
   font-size: 20px;
   font-weight: 500;
   line-height: 1.5;
@@ -184,13 +184,13 @@ nav {
   margin: 12px 0;
 }
 .side-bottom p {
-  color: #8fa99a;
+  color: #7a776e;
   font-size: 11px;
   line-height: 1.9;
 }
 .side-bottom button {
   background: none;
-  color: #d1dec1;
+  color: #148937;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -198,30 +198,30 @@ nav {
   font-size: 10px;
 }
 .sidebar-footer {
-  border-top: 1px solid #365448;
+  border-top: 1px solid #e8e7e3;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 21px 4px;
   font-size: 10px;
-  color: #e2e9d9;
+  color: #2b2a2a;
 }
 .sidebar-footer small {
   display: block;
-  color: #8eaa96;
+  color: #7a776e;
   margin-top: 4px;
   font-size: 9px;
 }
 .sidebar-footer > svg {
   margin-left: auto;
-  color: #90a589;
+  color: #148937;
 }
 .avatar {
-  background: #3d5947;
+  background: #e8eee5;
   padding: 10px 8px;
   border-radius: 50%;
   font-size: 9px;
-  color: #d2dfb5;
+  color: #148937;
 }
 .main-shell {
   margin-left: 238px;
@@ -233,7 +233,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 0 42px;
-  background: #fbfcf8;
+  background: #fcfcfc;
 }
 .breadcrumb {
   display: flex;
@@ -457,7 +457,7 @@ p {
   margin-bottom: 23px;
 }
 .metric {
-  border: 1px solid #e1e7dc;
+  border: 1px solid #e8e7e3;
   border-radius: 8px;
   background: #fff;
   padding: 20px 19px 16px;
@@ -465,7 +465,7 @@ p {
   box-shadow: 0 2px 3px #172f1702;
 }
 .metric.accent {
-  background: #edf3e7;
+  background: #f5f6f0;
   border-color: #d8e4cd;
 }
 .metric-label {
@@ -489,7 +489,7 @@ p {
   white-space: nowrap;
 }
 .metric-value span {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 12px;
   color: #98a08c;
   letter-spacing: 0;
@@ -502,7 +502,7 @@ p {
 }
 .card {
   background: #fff;
-  border: 1px solid #e1e7dc;
+  border: 1px solid #e8e7e3;
   border-radius: 8px;
   box-shadow: 0 2px 4px #172f1702;
   overflow: hidden;
@@ -537,7 +537,7 @@ h3 {
   padding: 4px 7px;
   background: #fafbf7;
   border-radius: 4px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 9px;
   font-weight: 400;
   color: #8b9681;
@@ -616,13 +616,13 @@ h3 {
   border-top: 2px solid;
 }
 .legend-line.green {
-  border-color: #20836e;
+  border-color: #148937;
 }
 .legend-line.dashed {
   border-top: 2px dashed #85a59a;
 }
 .legend-line.orange {
-  border-color: #cf9260;
+  border-color: #b78e59;
 }
 .profile-chart {
   height: 285px;
@@ -646,7 +646,7 @@ h3 {
 }
 .chart-tip {
   padding: 12px 14px;
-  border: 1px solid #e1e7dc;
+  border: 1px solid #e8e7e3;
   background: #fff;
   border-radius: 6px;
   box-shadow: 0 3px 15px #223a2212;
@@ -683,13 +683,13 @@ h3 {
   display: flex;
   align-items: flex-start;
   gap: 15px;
-  background: #edf2e5;
+  background: #f7f6f2;
   border: 1px solid #e0e7d5;
   border-radius: 8px;
   padding: 23px;
 }
 .insight-icon {
-  background: #e0e9d4;
+  background: #e9efdf;
   border: 1px solid #d7e2c9;
   border-radius: 7px;
   padding: 9px;
@@ -790,7 +790,7 @@ table {
 th {
   position: sticky;
   top: 0;
-  background: #f8faf4;
+  background: #f8f8f6;
   z-index: 1;
   color: #89957e;
   font-weight: 500;
@@ -849,7 +849,7 @@ td.strong {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #edf2e7;
+  background: #f7f6f2;
   border: 1px solid #dfe7d5;
   border-radius: 6px;
   padding: 15px 18px;
@@ -1567,5 +1567,185 @@ td.strong {
 .sidebar {
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #496451 #153c33;
+  scrollbar-color: #496451 #f8f8f6;
+}
+
+/* GridBricks by REint reference: Inter, editorial serif, warm neutrals, green. */
+.sidebar {
+  border-right: 1px solid #e8e7e3;
+  scrollbar-color: #d8d6cf #f8f8f6;
+}
+.brand {
+  font-size: 32px;
+  letter-spacing: -1.6px;
+  font-weight: 650;
+}
+.brand-dot {
+  font-size: 8px;
+  letter-spacing: 1px;
+  background: #eaf3e8;
+  color: #148937;
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin-left: 3px;
+  margin-top: 13px;
+}
+.workspace-label span {
+  border-color: #dddcd6;
+  color: #7a776e;
+}
+.sidebar-footer small {
+  color: #7a776e;
+}
+.side-bottom h3 {
+  font-weight: 450;
+}
+.side-bottom button {
+  color: #148937;
+}
+.nav-item {
+  font-size: 12px;
+}
+.topbar {
+  background: #fcfcfc;
+}
+.page-heading {
+  padding: 10px 0 16px;
+  align-items: flex-end;
+}
+.eyebrow {
+  color: #148937;
+  letter-spacing: 1.6px;
+  font-size: 10px;
+}
+h1 {
+  font-family: Inter, sans-serif;
+  font-size: 32px;
+  letter-spacing: -1.5px;
+  font-weight: 550;
+  line-height: 1.25;
+}
+h1 em {
+  display: block;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.32em;
+  font-weight: 400;
+  letter-spacing: -1px;
+  color: #5a5856;
+  line-height: 1.12;
+  margin: 3px 0 15px;
+}
+.page-heading p {
+  font-size: 12px;
+  color: #7a776e;
+}
+.card,
+.metric,
+.decision-bar {
+  border-color: #e8e7e3;
+  box-shadow: none;
+  border-radius: 10px;
+}
+.metric.accent {
+  background: #f5f6f0;
+  border-color: #e0e4d9;
+}
+.metric-value {
+  font-weight: 500;
+  color: #2b2a2a;
+  letter-spacing: -1.5px;
+}
+.metric-label,
+.card-heading p {
+  color: #7a776e;
+}
+.metric-label svg {
+  color: #148937;
+}
+.metric p {
+  color: #8d8980;
+}
+.metric-value span {
+  color: #9a968d;
+}
+.card-heading h2,
+.method-block h2 {
+  color: #2b2a2a;
+}
+.insight-card {
+  background: #f7f6f2;
+  border-color: #e8e7e3;
+}
+.insight-card h2 {
+  color: #2b2a2a;
+}
+.insight-card p {
+  color: #7a776e;
+}
+.insight-card .fine-print {
+  color: #9a968d;
+}
+.source-title h3,
+.source-card b {
+  color: #595752;
+}
+.tag {
+  background: #f8f8f6;
+  border-color: #e8e7e3;
+  color: #7a776e;
+}
+.text-button {
+  color: #148937;
+}
+.button {
+  border-radius: 7px;
+  color: #2b2a2a;
+  border-color: #dddcd6;
+  padding: 11px 15px;
+}
+.button:hover {
+  background: #f5f4ee;
+}
+.section-caption {
+  margin-top: 4px;
+}
+.section-caption > span:first-child {
+  color: #7a776e;
+}
+.page-footer {
+  color: #9a968d;
+  border-color: #e8e7e3;
+}
+.coverage-number {
+  color: #148937;
+}
+.method-intro h2 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  font-size: 32px;
+  color: #2b2a2a;
+}
+.chart-footer {
+  border-color: #efeee9;
+}
+@media (max-width: 760px) {
+  h1 {
+    font-size: 27px;
+    max-width: 310px;
+  }
+  h1 em {
+    font-size: 1.3em;
+  }
+  .page-heading {
+    align-items: flex-start;
+  }
+  .brand {
+    font-size: 32px;
+  }
+  .metric-value {
+    font-size: 29px;
+  }
+  .method-intro h2 {
+    font-size: 29px;
+  }
 }

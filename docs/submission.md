@@ -1,37 +1,39 @@
-# Publication and submission record
+# Publication and verification record
 
-## Current state
+## Current deliverable
 
-- Application: implemented, with real Elexon historical data.
-- Public app URL: **not created yet**.
-- Public GitHub repository URL: https://github.com/Hargun1/bbc7a6fdf5f9 (anonymous repository name).
-- Unlisted YouTube video URL: **not created yet**. The requester chose to record the prepared script themselves.
-- Microsoft form: **not submitted**. The assignment explicitly requires the video before submission.
-- Private/incognito public-access verification: **pending the three published URLs**.
-- Unauthenticated HTTP access to the public repository and raw README: **verified, both HTTP 200**. This is recorded separately from the requested incognito browser check, which has not occurred.
+- Stack: React frontend and Python/FastAPI backend. All ingestion, analysis, database access, and exports are Python.
+- Visual reference: GridBricks by REint at https://reint.ai/; independent assessment branding and original implementation.
+- Public source: https://github.com/Hargun1/bbc7a6fdf5f9.
+- Vercel: authenticated and linked to `hargun1s-projects/aeris-bbc7a6fdf5f9`; replacement Python deployment verification in progress.
+- YouTube: the requester chose to record/upload the prepared script. No video URL yet.
+- Form: not submitted. The assignment explicitly requires the video first.
 
-The existing local GitHub credential was verified for account Hargun1 and used to create the public repository. Vercel's integration is not connected and no local Vercel credential was found. The requester will record/upload the video. Do not substitute fake links or mark this assignment submitted.
+## Verification evidence
 
-## Local verification record
+- 31 Python tests passed locally: analytics, causal history, time boundaries, ingestion validation/conflicts, API validation, revision audit, and CSV.
+- React production build passed.
+- Migration parity passed for every monthly output and 124 decision-day profiles across all four cutoffs.
+- Local FastAPI health returned HTTP 200 with `backend: Python / FastAPI` and `storage: Bundled Elexon snapshot`.
+- `docker compose config --quiet` passed. The migrated Python Docker runtime is being checked in GitHub Actions; previous Node CI results do not count as evidence for this replacement.
+- Repository and raw README were accessible via unauthenticated HTTP 200.
+- Browser automation is unavailable in this session; visual layout and incognito checks are not claimed complete.
 
-- Real Elexon snapshot downloaded and provenance hashes recorded.
-- Analytics/API tests: 16 passing on the initial check, covering causal selection, alignment, metrics, risk history, date boundaries, validation, CSV, and revisions.
-- Vite production build: passed.
-- **Full-stack CI passed:** [run 40109487897](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40109487897), tested source commit `edcabf8`. This includes `npm ci`, all 16 tests, the production React build, Docker image build and Compose startup, a second idempotent seed, and the MongoDB-backed API/frontend integration check. The final documentation-only commit records these results.
-- A local standalone MongoDB test binary download failed with `getaddrinfo ENOTFOUND fastdl.mongodb.org`; that temporary test dependency was removed. The successful CI check uses the real Compose stack instead.
-- Local React frontend and Express API: started; frontend HTTP 200 verified.
-- `docker compose config --quiet`: passed.
-- Local Docker runtime: `docker compose -p aeris-pilot build` could not connect to `//./pipe/dockerDesktopLinuxEngine`, even after Docker Desktop was started. The image build and Compose startup were subsequently **verified successfully in CI**, as above.
-- Browser automation: unavailable in this session. Responsive layout and browser interactions are implemented but must not be represented as visually verified.
+## Vercel agent setup
 
-## Publish and verify
+Following https://vercel.com/get-started.md:
 
-1. Confirm the code and README in the [public repository](https://github.com/Hargun1/bbc7a6fdf5f9).
-2. Deploy on Vercel as described in README. A hosted MongoDB connection is needed if the deployment must use all four MERN components; otherwise the explicit snapshot adapter is suitable for a public pilot review.
-3. Record the real product and technical review using `demo-script.md`. Upload the resulting maximum-ten-minute recording to YouTube as **Unlisted**. Ensure neither section's initial overview exceeds five minutes.
-4. Replace the pending entries in README with the verified production app URL and recording/repository links.
-5. Open an incognito/private window with no GitHub/Vercel/Google login. Open each exact submission URL. Verify the repository and README can be read, the app loads all views and calls `/api/health`, and the video plays with sound without requesting access.
-6. Open the [submission form](https://forms.cloud.microsoft/r/FTX6K2bbnU), inspect its current fields, and enter the verified URLs and the applicant's requested identity details. Do not invent missing personal details.
-7. Submit only when the required video exists and all URLs have passed the access check. Record the form's actual confirmation, rather than inferring success from clicking Submit.
+- Global Vercel CLI 65.2.0 installed and authenticated as `hargun1`.
+- Existing Vercel plugin verified installed; no duplicate standalone skill pack installed.
+- Global Codex MCP entry `vercel` added at exactly `https://mcp.vercel.com`, preserving other servers. OAuth completed successfully.
+- MCP account tools have not loaded into this existing chat; a refreshed/new Codex session is needed to use those tools. Deployment uses the authenticated CLI in this session.
+- No credentials or Vercel environment files are tracked in Git.
 
-The form and URLs were supplied by the requester; this checklist does not imply that publication or submission has occurred.
+## Finish the submission
+
+1. Verify the replacement Python deployment URL and update README/publication metadata.
+2. Record the real app and technical walkthrough from `demo-script.md`; keep the whole video at most ten minutes and each initial overview at most five.
+3. Upload to YouTube as Unlisted and verify playback/sound.
+4. Open the exact app, repository, and video URLs in incognito while signed out. Verify app/API access, readable source, and video playback without requesting access.
+5. Enter the real URLs and applicant details in https://forms.cloud.microsoft/r/FTX6K2bbnU. Do not invent identity fields or submit before the video exists.
+6. Record the form's actual confirmation.

@@ -6,13 +6,14 @@
     "private": false
   },
   "verification": {
-    "tested_source_commit": "edcabf8",
-    "ci_url": "https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40109487897",
-    "conclusion": "success",
+    "stack": "React + Python / FastAPI",
+    "local_python_tests": "31 passed",
+    "migration_parity": "all monthly outputs and 124 day profiles passed",
+    "ci_status": "replacement Python CI pending",
     "public_repository_http": 200,
     "public_readme_http": 200,
     "incognito_check": "pending",
-    "vercel_deployment": "pending account connection",
+    "vercel_deployment": "authenticated; replacement Python deployment pending",
     "youtube": "requester will record and upload"
   }
 }

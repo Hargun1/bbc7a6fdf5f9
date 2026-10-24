@@ -11,7 +11,7 @@ services:
       retries: 20
   seed:
     build: .
-    command: ["node", "scripts/seed.js"]
+    command: ["python", "-m", "scripts.seed"]
     environment:
       MONGODB_URI: mongodb://mongo:27017/aeris
     depends_on:

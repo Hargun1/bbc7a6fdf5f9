@@ -178,7 +178,7 @@ function App() {
   const headings = {
     desk: [
       "THE TRADING WORKSPACE",
-      "A clearer view of tomorrow.",
+      "Wind forecasts. Clear decisions.",
       "Replay the wind forecast available before your day-ahead decision.",
     ],
     accuracy: [
@@ -212,7 +212,7 @@ function App() {
           <span className="brand-icon">
             <Wind size={25} />
           </span>
-          aeris<span className="brand-dot">®</span>
+          aeris<span className="brand-dot">PILOT</span>
         </a>
         <div className="workspace-label">
           ENERGY INTELLIGENCE <span>GB</span>
@@ -293,7 +293,18 @@ function App() {
           <div className="page-heading">
             <div>
               <div className="eyebrow">{headings[tab][0]}</div>
-              <h1>{headings[tab][1]}</h1>
+              <h1>
+                {headings[tab][1]}
+                <em>
+                  {tab === "desk"
+                    ? "Before the market moves."
+                    : tab === "accuracy"
+                      ? "Every decision, measured."
+                      : tab === "data"
+                        ? "From source to signal."
+                        : "Built to be understood."}
+                </em>
+              </h1>
               <p>{headings[tab][2]}</p>
             </div>
             <a className="button secondary export-top" href={exportUrl}>
@@ -492,12 +503,12 @@ function App() {
                             >
                               <stop
                                 offset="0%"
-                                stopColor="#36a78d"
+                                stopColor="#148937"
                                 stopOpacity={0.22}
                               />
                               <stop
                                 offset="100%"
-                                stopColor="#36a78d"
+                                stopColor="#148937"
                                 stopOpacity={0.01}
                               />
                             </linearGradient>
@@ -524,7 +535,7 @@ function App() {
                             type="monotone"
                             dataKey="forecast"
                             name="Selected forecast"
-                            stroke="#20836e"
+                            stroke="#148937"
                             strokeWidth={2.6}
                             fill="url(#windFill)"
                             connectNulls={false}
@@ -545,7 +556,7 @@ function App() {
                               type="monotone"
                               dataKey="actual"
                               name="Actual hourly mean"
-                              stroke="#cf9260"
+                              stroke="#b78e59"
                               strokeWidth={2.2}
                               dot={false}
                               isAnimationActive={false}
@@ -717,7 +728,7 @@ function App() {
               Aeris · Wind intelligence
             </span>
             <span>
-              January 2026 pilot · Elexon WINDFOR + FUELHH (WIND) ·{" "}
+              Independent assessment pilot · Elexon WINDFOR + FUELHH (WIND) ·{" "}
               {o?.storage || "Loading"}
             </span>
           </footer>
@@ -806,7 +817,7 @@ function Accuracy({ a, cutoff, onDay }) {
                   }}
                   style={{ cursor: "pointer" }}
                   dataKey="mae"
-                  fill="#3f8a76"
+                  fill="#148937"
                   radius={[4, 4, 0, 0]}
                   isAnimationActive={false}
                 />
@@ -877,7 +888,7 @@ function Accuracy({ a, cutoff, onDay }) {
               <ReferenceLine y={0} stroke="#879b90" />
               <Bar
                 dataKey="bias"
-                fill="#cf9260"
+                fill="#b78e59"
                 radius={[3, 3, 0, 0]}
                 isAnimationActive={false}
               />
@@ -1073,8 +1084,9 @@ function DataView({ o, revisions, hour, setHour, cutoff }) {
         <p className="fine-print">
           Bundled records preserve generation, delivery timestamp, and
           publication timestamp. Raw response hashes are recorded during
-          ingestion; raw files can be regenerated with npm run ingest. MongoDB
-          caches the seeded snapshot in process; restart after reseeding.
+          ingestion; raw files can be regenerated with python -m scripts.ingest.
+          MongoDB caches the seeded snapshot in process; restart after
+          reseeding.
         </p>
         <p>
           Contains BMRS data © Elexon Limited copyright and database right

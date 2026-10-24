@@ -10,8 +10,13 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
       - run: npm run check
-      - name: Build and start the full MERN stack
+      - name: Build and start React + Python + MongoDB
         run: docker compose -p aeris-ci up -d --build app
       - name: Verify idempotent seed
         run: docker compose -p aeris-ci run --rm seed

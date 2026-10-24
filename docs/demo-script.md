@@ -32,11 +32,11 @@ Record the real running portal in 1080p. Keep the narration natural and pause br
 
 ### 4:15–4:55 · Show architecture diagram in docs/architecture.md
 
-“The implementation uses the requested updated MERN stack: React for the portal, Express and Node for the API and analysis, and MongoDB for storage. Ingestion runs offline and produces a versioned real-data snapshot. Docker Compose starts MongoDB, seeds it with keyed upserts, then starts the application. A separate snapshot adapter gives a reviewer a zero-configuration mode, and the interface states which store is actually used.”
+“The implementation uses the requested React and Python stack: React for the portal, FastAPI for the API, pure Python for analysis, and optional MongoDB via PyMongo. Ingestion runs offline and produces a versioned real-data snapshot. Docker Compose starts MongoDB, seeds it with keyed upserts, then starts the application. A separate snapshot adapter gives a reviewer a zero-configuration mode, and the interface states which store is actually used.”
 
-### 4:55–5:45 · Open scripts/ingest.js and server/analytics.js
+### 4:55–5:45 · Open scripts/ingest.py and server/analytics.py
 
-“Ingestion calls the two stream endpoints, preserving both delivery and publication time. FUELHH is filtered to WIND. Requests have timeouts and retries; validation rejects invalid rows and conflicting duplicates. The output is replaced atomically, with raw response hashes in its metadata. The analysis engine is pure JavaScript, separate from I/O. For every target hour, it sorts forecast vintages and takes the latest one at or before the decision cutoff.”
+“Ingestion calls the two stream endpoints, preserving both delivery and publication time. FUELHH is filtered to WIND. Requests have timeouts and retries; validation rejects invalid rows and conflicting duplicates. The output is replaced atomically, with raw response hashes in its metadata. The analysis engine is pure Python, separate from I/O. For every target hour, it sorts forecast vintages and takes the latest one at or before the decision cutoff.”
 
 ### 5:45–6:35 · Show day(), metrics(), overview()
 
@@ -44,11 +44,11 @@ Record the real running portal in 1080p. Keep the narration natural and pause br
 
 ### 6:35–7:15 · Open tests; run npm run check
 
-“The tests exercise causal cutoff selection, missing half-hours, valid zeros, metric signs and units, boundary dates, actual publication times, and minimum risk history. We also verify all real snapshot selections across the offered cutoffs. API tests check validation, export audit fields, revision eligibility, and coverage. The production frontend build runs in the same check command. The MongoDB path has a separate integration check; the verification record states which checks actually ran.”
+“The 31 Python tests exercise causal cutoff selection, missing half-hours, valid zeros, metric signs and units, boundary dates, actual publication times, and minimum risk history. We also verify all real snapshot selections across the offered cutoffs. API tests check validation, export audit fields, revision eligibility, and coverage. The production frontend build runs in the same check command. The MongoDB path has a separate integration check; the verification record states which checks actually ran.”
 
 ### 7:15–8:00 · Show repository/app/frontend and deployment files
 
-“The repository adapter loads and caches the fixed January dataset per process. Configured MongoDB failures are visible rather than silently replaced by snapshot data. Express validates query parameters and exposes read-only routes. React keeps the decision and hindsight states explicit, handles loading and retry, and guards against older asynchronous responses overwriting newer settings. CSV calculations share the server logic. The Docker image runs non-root, and Vercel uses static React assets plus the same Express handler as a Node function.”
+“The repository adapter loads and caches the fixed January dataset per process. Configured MongoDB failures are visible rather than silently replaced by snapshot data. FastAPI validates query parameters and exposes read-only routes. React keeps the decision and hindsight states explicit, handles loading and retry, and guards against older asynchronous responses overwriting newer settings. CSV calculations share the server logic. The Docker image runs non-root, and Vercel uses static React assets plus the same FastAPI ASGI app as a Python function.”
 
 ### 8:00–8:50 · Return to Methodology and README
 

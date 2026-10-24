@@ -3,18 +3,18 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npm run build && npm prune --omit=dev
+RUN npm run build
 
-FROM node:22-alpine
-ENV NODE_ENV=production PORT=3001
+FROM python:3.13-slim
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PORT=3001
 WORKDIR /app
-COPY --from=build --chown=node:node /app/node_modules ./node_modules
-COPY --from=build --chown=node:node /app/dist ./dist
-COPY --chown=node:node package.json ./
-COPY --chown=node:node server ./server
-COPY --chown=node:node scripts/seed.js ./scripts/seed.js
-COPY --chown=node:node data/snapshot.json ./data/snapshot.json
-USER node
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt && useradd --create-home appuser
+COPY --from=build --chown=appuser:appuser /app/dist ./dist
+COPY --chown=appuser:appuser server ./server
+COPY --chown=appuser:appuser scripts ./scripts
+COPY --chown=appuser:appuser data/snapshot.json ./data/snapshot.json
+USER appuser
 EXPOSE 3001
-HEALTHCHECK --interval=30s --timeout=5s CMD node -e "fetch('http://127.0.0.1:3001/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
-CMD ["node", "server/index.js"]
+HEALTHCHECK --interval=30s --timeout=5s CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:3001/api/health',timeout=4)"
+CMD ["python", "-m", "uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "3001"]
