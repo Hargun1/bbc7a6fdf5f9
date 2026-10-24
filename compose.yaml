@@ -1,0 +1,31 @@
+services:
+  mongo:
+    image: mongo:7
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test:
+        ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  seed:
+    build: .
+    command: ["node", "scripts/seed.js"]
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/aeris
+    depends_on:
+      mongo:
+        condition: service_healthy
+  app:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/aeris
+      PORT: 3001
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+volumes:
+  mongo-data:

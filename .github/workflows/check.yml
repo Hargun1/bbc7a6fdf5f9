@@ -1,0 +1,25 @@
+name: Verify
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Build and start the full MERN stack
+        run: docker compose -p aeris-ci up -d --build app
+      - name: Verify idempotent seed
+        run: docker compose -p aeris-ci run --rm seed
+      - name: Verify the MongoDB-backed application
+        run: npm run test:mongo
+      - name: Container diagnostics
+        if: always()
+        run: docker compose -p aeris-ci logs --no-color
+      - name: Clean up isolated CI stack
+        if: always()
+        run: docker compose -p aeris-ci down --volumes
