@@ -18,6 +18,8 @@ A January 2026 pilot for a Great Britain day-ahead electricity procurement desk.
 
 ## Start locally
 
+For a detailed personal learning script, read [Aeris explained](docs/project-explained.md): domain basics, worked calculations, every screen, the code tour, MongoDB, Docker, Vercel, and reviewer Q&A. The separate [recording script](docs/demo-script.md) is timed for the required under-ten-minute video.
+
 Prerequisites: Python 3.13, Node.js 22+, npm. The checked-in real Elexon snapshot supports startup without an API key or database account.
 
 ```sh
