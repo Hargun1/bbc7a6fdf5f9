@@ -9,11 +9,19 @@
     "stack": "React + Python / FastAPI",
     "local_python_tests": "31 passed",
     "migration_parity": "all monthly outputs and 124 day profiles passed",
-    "ci_status": "replacement Python CI pending",
+    "tested_source_commit": "e64d8a9",
+    "ci_url": "https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40112420641",
+    "ci_status": "success: Python tests, frontend, Docker, MongoDB, repeat seed, API parity",
     "public_repository_http": 200,
     "public_readme_http": 200,
     "incognito_check": "pending",
-    "vercel_deployment": "authenticated; replacement Python deployment pending",
+    "vercel_deployment": "READY and promoted to production",
+    "deployment_id": "dpl_96zYiSSy2fdMpMzrMWw7icmZRumu",
+    "public_app_url": "https://aeris-bbc7a6fdf5f9.vercel.app",
+    "public_app_http": 200,
+    "backend": "Python / FastAPI",
+    "storage": "Bundled Elexon snapshot",
+    "public_api_verification": "passed: exact metrics, daily profile, revisions, CSV, docs, validation",
     "youtube": "requester will record and upload"
   }
 }

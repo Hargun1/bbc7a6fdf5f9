@@ -11,7 +11,8 @@ A January 2026 pilot for a Great Britain day-ahead electricity procurement desk.
 ## Delivery
 
 - Public repository: https://github.com/Hargun1/bbc7a6fdf5f9 (anonymous repository name).
-- Vercel: Python deployment being verified; see `docs/publication.json` for the final URL.
+- Live app: **https://aeris-bbc7a6fdf5f9.vercel.app** — React frontend and Python/FastAPI backend, publicly accessible without Vercel login.
+- [Verified CI](https://github.com/Hargun1/bbc7a6fdf5f9/actions/runs/40112420641): 31 Python tests, React build, Docker/Python/MongoDB startup, repeat seed, and API parity passed.
 - Video: the requester will record/upload the unlisted demo using `docs/demo-script.md`.
 - Submission form: pending; the required video must exist first.
 
@@ -141,5 +142,7 @@ With the real Compose stack running, `npm run test:mongo` checks Python backend 
 Project: `hargun1s-projects/aeris-bbc7a6fdf5f9`. Vercel serves `dist` and routes `/api/*` to the FastAPI ASGI app in `api/index.py`. No Express/Node backend remains.
 
 The public pilot supports the bundled authentic Elexon snapshot. For Atlas, configure `MONGODB_URI` as a protected production variable, seed from a trusted environment, and redeploy. Never commit credentials or Vercel-generated environment files.
+
+The public deployment was verified without authentication: Python health identity, 744-pair accuracy results, daily profiles, revision audit, 744-row CSV export, API documentation, and invalid-date HTTP 400 responses. The production hostname above is public; Vercel's deployment-specific/team-preview hostnames retain their normal access protection. GitHub is connected for future deployments from this repository.
 
 Record/upload the under-ten-minute video, then test the exact app, repository, and video URLs in incognito before submitting the assignment form. Recording and submission remain pending.
