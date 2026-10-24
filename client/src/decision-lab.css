@@ -1,0 +1,476 @@
+.lab-toolbar {
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  align-items: center;
+  overflow: visible;
+}
+.lab-toolbar-intro {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lab-toolbar-intro > svg {
+  color: #148937;
+  flex-shrink: 0;
+}
+.lab-toolbar-intro strong {
+  font-size: 12px;
+  font-weight: 550;
+}
+.lab-toolbar-intro p {
+  font-size: 10px;
+  color: #7a776e;
+  margin-top: 6px;
+  line-height: 1.7;
+  max-width: 300px;
+}
+.lab-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.lab-controls > svg {
+  color: #a6aa9f;
+}
+.lab-controls label,
+.lab-current small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #8b887f;
+  white-space: nowrap;
+}
+.lab-controls select {
+  display: block;
+  margin-top: 9px;
+  padding: 7px 9px;
+  background: #fafaf7;
+  border: 1px solid #e5e5dc;
+  border-radius: 5px;
+  color: #4c5a44;
+  font-size: 10px;
+  max-width: 170px;
+}
+.lab-current strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 13px;
+  white-space: nowrap;
+}
+.lab-section-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  color: #818774;
+  margin: 28px 0 15px;
+}
+.lab-section-label > span:last-child {
+  font-size: 9px;
+  color: #9a968d;
+}
+.lab-section-label .tiny-label {
+  font-size: 9px;
+  color: #7a776e;
+}
+.lab-revision-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(245px, 1fr);
+  gap: 20px;
+}
+.lab-comparison-chart {
+  height: 250px;
+  padding: 15px 12px 5px 0;
+}
+.lab-change-summary {
+  padding: 25px;
+}
+.lab-change-summary > .tiny-label {
+  color: #8a957c;
+}
+.lab-revision-number {
+  font-family: Inter, sans-serif;
+  font-size: 40px;
+  letter-spacing: -1.8px;
+  font-weight: 450;
+  line-height: 1.4;
+  margin-top: 16px;
+}
+.lab-revision-number span {
+  font-size: 13px;
+  letter-spacing: 0;
+  color: #9a968d;
+  margin-left: 7px;
+}
+.lab-change-summary > p {
+  font-size: 10px;
+  line-height: 1.8;
+  color: #7a776e;
+}
+.lab-summary-rule {
+  border-top: 1px solid #ecece5;
+  margin: 17px 0 12px;
+}
+.lab-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  color: #89897f;
+  padding: 7px 0;
+}
+.lab-summary-row b {
+  font-weight: 500;
+  color: #4f5f46;
+}
+.lab-change-summary > p.lab-small {
+  margin-top: 9px;
+  font-size: 9px;
+}
+.lab-brief-link {
+  background: #148937;
+  color: #fff;
+  margin-top: 17px;
+  width: 100%;
+  border: 1px solid #148937;
+}
+.lab-brief-link:hover {
+  background: #117b30;
+  color: #fff;
+}
+.lab-change-summary > small {
+  display: block;
+  text-align: center;
+  font-size: 8px;
+  color: #9a968d;
+  margin-top: 9px;
+}
+.lab-policy-comparison {
+  padding: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 23px;
+}
+.lab-policy-comparison > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lab-policy-comparison > div:first-child > svg {
+  color: #148937;
+}
+.lab-policy-comparison h2 {
+  font-size: 13px;
+}
+.lab-policy-comparison p {
+  font-size: 10px;
+  color: #8b887f;
+  margin-top: 8px;
+  line-height: 1.8;
+}
+.lab-policy-values {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.lab-policy-values small {
+  display: block;
+  font-size: 9px;
+  color: #8e9583;
+  margin-bottom: 7px;
+}
+.lab-policy-values b {
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  font-weight: 500;
+}
+.lab-policy-values b i {
+  font-size: 10px;
+  color: #9a968d;
+  font-style: normal;
+  font-weight: 400;
+}
+.lab-policy-values > svg {
+  color: #a5af99;
+}
+.lab-policy-values .lab-delta {
+  font-size: 10px;
+  padding: 8px 10px;
+  background: #f6f6f1;
+  border-radius: 5px;
+  color: #7a776e;
+  white-space: nowrap;
+}
+.lab-delta.improving {
+  color: #148937;
+  background: #edf5e9;
+}
+.lab-delta.worsening {
+  color: #a16c42;
+  background: #f9f1e6;
+}
+.lab-policy-comparison > p.lab-small {
+  width: 100%;
+  font-size: 9px;
+  margin-top: -7px;
+  border-top: 1px solid #efefe7;
+  padding-top: 13px;
+}
+.lab-coverage-chart {
+  height: 240px;
+  padding: 15px 10px 5px;
+}
+.lab-caveat {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px 24px;
+  background: #fafaf6;
+  border-top: 1px solid #eceee5;
+}
+.lab-caveat > svg {
+  color: #91a17b;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.lab-caveat p {
+  font-size: 9px;
+  line-height: 1.8;
+  color: #909783;
+}
+.heatmap-legend {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.heatmap-legend > span {
+  font-size: 8px;
+  color: #8a8c80;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.heatmap-legend i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.heat-red {
+  background: #b66d48;
+}
+.heat-blue {
+  background: #447e97;
+}
+.heat-empty {
+  background: #e8e7e3;
+}
+.heatmap-scroll {
+  overflow-x: auto;
+  padding: 14px 24px 20px;
+}
+.error-atlas {
+  min-width: 640px;
+}
+.heatmap-axis,
+.heatmap-row {
+  display: grid;
+  grid-template-columns: 64px repeat(24, minmax(0, 1fr));
+  gap: 3px;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.heatmap-axis {
+  margin-bottom: 12px;
+}
+.heatmap-axis span {
+  font-size: 8px;
+  text-align: center;
+  color: #9b9f90;
+}
+.heatmap-axis span:first-child {
+  font-size: 7px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+.heatmap-row > span {
+  font-size: 8px;
+  color: #879077;
+}
+.heatmap-row > button {
+  height: 14px;
+  border-radius: 2px;
+  padding: 0;
+  min-width: 0;
+  transition: transform 0.1s;
+}
+.heatmap-row > button:hover {
+  transform: scale(1.25);
+  outline: 1px solid #4f6f4a;
+  position: relative;
+  z-index: 1;
+}
+.heatmap-row > button[aria-pressed="true"] {
+  outline: 2px solid #2b2a2a;
+  outline-offset: 1px;
+}
+.heatmap-row > button:focus-visible {
+  outline: 2px solid #2b2a2a;
+  outline-offset: 2px;
+}
+.heatmap-selection {
+  border-top: 1px solid #efefe7;
+  padding: 15px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  font-size: 10px;
+  color: #7a776e;
+  min-height: 53px;
+}
+.heatmap-selection strong {
+  font-weight: 500;
+  color: #4f5f46;
+}
+.lab-revision-audit .table-scroll {
+  max-height: none;
+}
+@media (max-width: 1250px) {
+  .lab-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .lab-toolbar-intro p {
+    max-width: 100%;
+  }
+  .lab-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .lab-policy-comparison {
+    gap: 18px;
+  }
+  .lab-policy-values {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .lab-revision-grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(225px, 1fr);
+    gap: 15px;
+  }
+  .lab-change-summary {
+    padding: 21px;
+  }
+  .lab-revision-number {
+    font-size: 35px;
+  }
+}
+@media (max-width: 1000px) {
+  .lab-revision-grid {
+    grid-template-columns: 1fr;
+  }
+  .lab-change-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 25px;
+  }
+  .lab-change-summary > .tiny-label,
+  .lab-change-summary > .lab-summary-rule,
+  .lab-change-summary > p.lab-small,
+  .lab-change-summary > .lab-brief-link,
+  .lab-change-summary > small {
+    grid-column: 1/-1;
+  }
+  .lab-change-summary > .lab-revision-number {
+    margin-top: 8px;
+    grid-row: 2;
+  }
+  .lab-change-summary > p:not(.lab-small) {
+    align-self: center;
+    grid-row: 2;
+  }
+  .lab-summary-row {
+    grid-column: 1/-1;
+  }
+  .lab-policy-values {
+    gap: 15px;
+  }
+  .lab-section-label {
+    align-items: flex-start;
+  }
+  .lab-section-label > span:last-child {
+    text-align: right;
+    max-width: 45%;
+    line-height: 1.7;
+  }
+}
+@media (max-width: 760px) {
+  .lab-toolbar {
+    padding: 20px;
+  }
+  .lab-controls {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .lab-controls > label:last-child {
+    width: 100%;
+    border-top: 1px solid #eceee5;
+    padding-top: 13px;
+  }
+  .lab-controls > label:last-child select {
+    width: 100%;
+    max-width: none;
+  }
+  .lab-toolbar-intro strong {
+    font-size: 11px;
+  }
+  .lab-toolbar-intro p {
+    font-size: 9px;
+  }
+  .lab-section-label > span:last-child {
+    display: none;
+  }
+  .lab-comparison-chart {
+    height: 245px;
+  }
+  .lab-policy-comparison {
+    padding: 20px;
+  }
+  .lab-policy-values {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .lab-policy-values .lab-delta {
+    width: 100%;
+    text-align: center;
+  }
+  .lab-policy-values b {
+    font-size: 22px;
+  }
+  .lab-caveat {
+    padding: 16px;
+  }
+  .heatmap-scroll {
+    padding-inline: 16px;
+  }
+  .heatmap-selection {
+    padding: 16px;
+    flex-wrap: wrap;
+    font-size: 9px;
+  }
+  .heatmap-legend {
+    gap: 10px;
+  }
+  .lab-coverage-chart {
+    height: 220px;
+  }
+}

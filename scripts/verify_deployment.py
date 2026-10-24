@@ -5,6 +5,7 @@ import os
 import time
 from urllib.request import urlopen
 from server.analytics import Analysis
+from server.decision_tools import DecisionTools
 from server.repository import ROOT
 
 
@@ -33,9 +34,18 @@ def main():
     assert overview["meta"]["forecastRows"] == len(reference["forecasts"])
     assert overview["meta"]["actualRows"] == len(reference["actuals"])
     assert len(overview["rows"]) == 24
+    tools = DecisionTools(Analysis(reference))
+    lab = get("/api/lab?date=2026-01-15&confidence=90")
+    expected_replay = tools.backtest("09:00", 90)
+    assert lab["backtest"]["n"] == expected_replay["n"]
+    assert lab["backtest"]["breaches"] == expected_replay["breaches"]
+    assert math.isclose(lab["backtest"]["observedCoverage"], expected_replay["observedCoverage"])
+    assert len(lab["heatmap"]["days"]) == 31
+    brief = get("/api/brief?date=2026-01-15&format=json")
+    assert brief["briefId"] == tools.brief("2026-01-15", "09:00")["briefId"]
     with urlopen(base, timeout=10) as response:
         assert response.status == 200 and "Aeris" in response.read().decode()
-    print(f"PASS: React + Python deployment, {health['storage']}, exact snapshot metric parity.")
+    print(f"PASS: React + Python, {health['storage']}, metrics, Decision Lab replay, and brief parity.")
 
 
 if __name__ == "__main__":

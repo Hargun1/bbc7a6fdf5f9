@@ -59,6 +59,7 @@ Without a URI, the API/UI report **Bundled Elexon snapshot**. Configured databas
 
 - **Day-ahead desk:** decision date, D+1 delivery, cutoff, wind profile, energy, peak, forecast age, historical shortfall scenario, and hourly audit. Actuals stay hidden until revealed as hindsight.
 - **Forecast accuracy:** MAE/RMSE/bias/WAPE, P90 absolute error, daily scorecards, daily errors, hourly bias, and paired coverage. Change cutoff to compare information policies.
+- **Decision Lab:** compare earlier/later forecast vintages, evaluate cutoff policies on a common cohort, replay P80/P90/P95 buffers chronologically, inspect a 31×24 signed-error atlas, and download an as-of decision brief. See `docs/decision-lab.md` for formulas, caveats, and a demonstration route.
 - **Data & provenance:** source counts, actual storage mode, requests/hashes, and all retained forecast vintages, including those excluded by cutoff.
 - **Methodology:** selection, aggregation, units, assumptions, and pilot boundaries.
 - **CSV:** daily/monthly export includes cutoff, decision date, target time, forecast and actual publication times, lead time, error, and retrieval timestamp. Actual columns are retrospective even when hidden in the chart.
@@ -109,6 +110,7 @@ Contains BMRS data © Elexon Limited copyright and database right 2026. Review [
 | --- | --- |
 | `client/src/main.jsx`, `styles.css` | React views, charts, controls, responsive visual system |
 | `server/analytics.py` | Pure Python vintage selection, alignment, metrics, causal history |
+| `server/decision_tools.py`, `server/brief.py` | Fair policy comparisons, walk-forward buffer validation, and portable as-of reports |
 | `server/repository.py` | Snapshot/MongoDB adapter, initialization lock, cache |
 | `server/app.py` | FastAPI routes, validation, CSV, static hosting, API docs |
 | `api/index.py` | Vercel ASGI entrypoint for the same app |
@@ -117,7 +119,8 @@ Contains BMRS data © Elexon Limited copyright and database right 2026. Review [
 | `scripts/report.py` | Reproduce pilot statistics |
 | `scripts/verify_deployment.py` | Check deployed Python API, data, storage, and frontend |
 | `data/snapshot.json` | Real Elexon records and provenance |
-| `tests/test_analytics.py`, `test_api.py` | 31 Python analytic, ingestion, and API tests |
+| `tests/test_analytics.py`, `test_api.py` | Core analytic, ingestion, and API tests |
+| `tests/test_decision_tools.py` | Temporal report isolation, fair cohorts, buffer tradeoffs, and feature API checks |
 | `docs/` | Architecture, recording script, publication/access verification |
 | `requirements*.txt`, `pyproject.toml`, `.python-version` | Python dependencies and configuration |
 | `package*.json`, `vite.config.js` | Frontend dependencies and development/build commands |
@@ -129,11 +132,13 @@ Contains BMRS data © Elexon Limited copyright and database right 2026. Review [
 
 GET `/api/health`, `/api/overview?date=2026-01-15&cutoff=09:00`, `/api/accuracy?cutoff=09:00`, `/api/revisions?hour=12`, `/api/export?scope=month`. Interactive docs: `/api/docs`. Invalid inputs/duplicates return JSON 400; unavailable data returns 503. No public mutation/trading endpoints.
 
+Decision Lab: `/api/lab?date=2026-01-15&cutoff=09:00&earlier=07:00&confidence=90`. Confidence accepts 80/90/95; the earlier cutoff must be strictly before the selected cutoff. Brief: `/api/brief` downloads printable HTML; `?format=json` returns its reproducible as-of record. Both endpoints accept the same decision/policy settings.
+
 ```sh
 npm run check
 ```
 
-Runs Python tests and the React production build. Checks cover causal selection, alignment, gaps, zeros, metric signs/units, date boundaries, history, real-data invariants, ingestion conflicts/invalid values, API validation, revisions, and CSV audit fields. Migration additionally compared all monthly outputs and 124 decision-day profiles across four cutoffs against the former implementation; all matched within floating-point tolerance.
+Runs 55 Python tests and the React production build. Checks cover causal selection, alignment, gaps, zeros, metric signs/units, date boundaries, history, real-data invariants, ingestion conflicts, validation, revisions, CSV traceability, common-cohort policy comparisons, chronological buffer evaluation, and isolation of the brief from future actual readings. Migration additionally compared all monthly outputs and 124 profiles across four cutoffs against the former implementation; all matched within floating-point tolerance.
 
 With the real Compose stack running, `npm run test:mongo` checks Python backend identity, MongoDB storage, record counts, numerical parity, and React HTML. CI also repeats seeding. See `docs/submission.md` for actual completed checks.
 

@@ -8,8 +8,11 @@ from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from server.analytics import cutoff_for
 from server.repository import get_repository, ROOT
+from server.decision_tools import DecisionTools
+from server.brief import render_brief
 
-app = FastAPI(title="Aeris Wind Intelligence", version="2.0.0", docs_url="/api/docs", openapi_url="/api/openapi.json", redoc_url=None)
+APP_VERSION = "2.1.0"
+app = FastAPI(title="Aeris Wind Intelligence", version=APP_VERSION, docs_url="/api/docs", openapi_url="/api/openapi.json", redoc_url=None)
 
 
 @app.middleware("http")
@@ -32,7 +35,7 @@ async def unavailable(request, exc):
 
 
 def params(request):
-    for key in ("date", "cutoff", "hour", "scope"):
+    for key in ("date", "cutoff", "hour", "scope", "earlier", "confidence", "format"):
         if len(request.query_params.getlist(key)) > 1:
             raise ValueError("Invalid parameters: duplicate query key")
     date = request.query_params.get("date", "2026-01-15")
@@ -41,10 +44,18 @@ def params(request):
     return date, cutoff
 
 
+def lab_params(request):
+    date, cutoff = params(request)
+    confidence = request.query_params.get("confidence", "90")
+    if confidence not in ("80", "90", "95"):
+        raise ValueError("Confidence must be 80, 90, or 95")
+    return date, cutoff, request.query_params.get("earlier", "07:00"), int(confidence)
+
+
 @app.get("/api/health")
 def health():
     _, snapshot, mode = get_repository()
-    return dict(status="ok", storage=mode, backend="Python / FastAPI", retrievedAt=snapshot["meta"]["retrievedAt"])
+    return dict(status="ok", version=APP_VERSION, storage=mode, backend="Python / FastAPI", retrievedAt=snapshot["meta"]["retrievedAt"])
 
 
 @app.get("/api/overview")
@@ -87,6 +98,27 @@ def export(request: Request):
         writer.writerow([cutoff, row.get("decisionDate", date), *[row.get(f) for f in fields], snapshot["meta"]["retrievedAt"]])
     label = "january" if scope == "month" else date
     return Response(output.getvalue(), media_type="text/csv", headers={"Content-Disposition": f'attachment; filename="aeris-{label}-{cutoff.replace(":", "")}.csv"'})
+
+
+@app.get("/api/lab")
+def decision_lab(request: Request):
+    arguments = lab_params(request)
+    return DecisionTools(get_repository()[0]).lab(*arguments)
+
+
+@app.get("/api/brief")
+def decision_brief(request: Request):
+    arguments = lab_params(request)
+    output = request.query_params.get("format", "html")
+    if output not in ("html", "json"):
+        raise ValueError("Brief format must be html or json")
+    brief = DecisionTools(get_repository()[0]).brief(*arguments)
+    if output == "json":
+        return brief
+    filename = f'aeris-decision-{arguments[0]}-{arguments[1].replace(":", "")}-p{arguments[3]}.html'
+    return Response(render_brief(brief), media_type="text/html",
+                    headers={"Content-Disposition": f'attachment; filename="{filename}"',
+                             "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'"})
 
 
 @app.api_route("/api/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH"])

@@ -34,8 +34,10 @@ import {
   Clock3,
   CalendarDays,
   Layers3,
+  FlaskConical,
 } from "lucide-react";
 import "./styles.css";
+import DecisionLab from "./DecisionLab";
 
 const fmt = (v, d = 0) =>
   v === null || v === undefined
@@ -64,6 +66,7 @@ const stamp = (s) =>
 const TABS = [
   ["desk", "Day-ahead desk", LayoutDashboard],
   ["accuracy", "Forecast accuracy", Activity],
+  ["lab", "Decision lab", FlaskConical],
   ["data", "Data & provenance", Database],
   ["method", "Methodology", BookOpen],
 ];
@@ -186,6 +189,11 @@ function App() {
       "Know the forecast. Know the error.",
       "Measure the forecast you could have used, against what actually happened.",
     ],
+    lab: [
+      "THE DECISION LAB",
+      "Put the forecast to the test.",
+      "Compare information snapshots, validate the risk scenario, and keep a decision record.",
+    ],
     data: [
       "A TRACEABLE FOUNDATION",
       "Every number has a source.",
@@ -298,11 +306,13 @@ function App() {
                 <em>
                   {tab === "desk"
                     ? "Before the market moves."
-                    : tab === "accuracy"
-                      ? "Every decision, measured."
-                      : tab === "data"
-                        ? "From source to signal."
-                        : "Built to be understood."}
+                    : tab === "lab"
+                      ? "Evidence before confidence."
+                      : tab === "accuracy"
+                        ? "Every decision, measured."
+                        : tab === "data"
+                          ? "From source to signal."
+                          : "Built to be understood."}
                 </em>
               </h1>
               <p>{headings[tab][2]}</p>
@@ -611,9 +621,9 @@ function App() {
                         </p>
                         <button
                           className="text-button"
-                          onClick={() => navigate("accuracy")}
+                          onClick={() => navigate("lab")}
                         >
-                          Examine forecast accuracy <ArrowRight size={15} />
+                          Test this risk scenario <ArrowRight size={15} />
                         </button>
                       </div>
                     </section>
@@ -717,6 +727,17 @@ function App() {
                   hour={hour}
                   setHour={setHour}
                   cutoff={cutoff}
+                />
+              )}
+              {tab === "lab" && (
+                <DecisionLab
+                  date={date}
+                  cutoff={cutoff}
+                  onInspect={(d, h) => {
+                    setDate(d);
+                    setHour(h);
+                    navigate("data");
+                  }}
                 />
               )}
               {tab === "method" && <Method />}

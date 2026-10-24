@@ -1,65 +1,77 @@
-# Aeris video demo — target 8–9 minutes, maximum 10
+# Two-part demo — target 9 minutes 15 seconds, maximum 10
 
-Record the real running portal in 1080p. Keep the narration natural and pause briefly after changing a view. The times below are pacing targets; keep each part under five minutes and the whole video under ten. This script is not a recording or a YouTube upload.
+Use the live app at https://aeris-bbc7a6fdf5f9.vercel.app. Record at 1080p with readable text and clear audio. The customer part is 4:30 and the technical part is 4:45; neither initial overview exceeds five minutes. Timing below is a pacing target, not a recording.
 
-## Part 1 — customer pilot presentation (0:00–4:15)
+## Part 1 — customer pilot (0:00–4:30)
 
-### 0:00–0:35 · Start on Day-ahead desk, decision 15 Jan, cutoff 09:00
+### 0:00–0:45 · Day-ahead desk, decision 15 Jan, 09:00 cutoff
 
-“Aeris gives your day-ahead desk a clear answer to two questions: what wind forecast could we rely on when we made our decision, and how large have the misses been? This pilot uses only the national Elexon wind forecast and actual generation series, for decisions made during January 2026. We can replay each decision without allowing a later forecast to rewrite the past.”
+“Aeris answers three questions for the day-ahead desk: which wind forecast could we have known, how much does that forecast miss, and how defensible is the risk allowance we use? This pilot uses only the two requested Elexon wind series, for decisions made in January 2026. Here we are deciding on January fifteenth for delivery on the sixteenth. Every hour uses the latest forecast published by our selected cutoff.”
 
-### 0:35–1:25 · Point to dates, cutoff, cards, and forecast publication
+Point to 07:30 publication, 7.93 GW average, 190.33 GWh forecast energy, and the hourly profile. Explain that 09:00 is a pilot desk assumption, to be agreed with the client's trading venue and submission lead time.
 
-“Here we are deciding on the fifteenth of January for delivery on the sixteenth. The default is a nine o'clock desk cutoff, an explicit operating assumption that we would agree with your team. Every target hour uses the latest publication available by then. In this example the forecast was published at seven thirty. The expected average wind is 7.93 gigawatts, equivalent to 190.33 gigawatt hours across the complete delivery day. The chart makes the daily shape visible, rather than hiding it inside a single average.”
+### 0:45–1:20 · Reveal hindsight; Forecast accuracy
 
-### 1:25–2:10 · Hover over chart; explain dashed line and historical sample
+“Actuals are hidden until I choose to reveal hindsight. Across the January decisions we have 744 matched hours. At nine o'clock, mean absolute error is about 2,039 megawatts, and bias is positive 1,748: wind was overforecast on average in this sample. The daily scorecard identifies the difficult decisions rather than hiding them inside a monthly average.”
 
-“The dashed line explores a lower wind contribution. It subtracts a shortfall buffer estimated from completed earlier delivery days only. For this decision, there are 312 hourly comparisons already available, and the historical ninetieth percentile overforecast is approximately 4.38 gigawatts. This is a transparent scenario for discussion, not a guaranteed bound. It tells the desk that the uncertainty can be material, and makes its basis inspectable.”
+### 1:20–2:15 · Decision Lab: compare 07:00 and selected 09:00
 
-### 2:10–2:45 · Reveal actuals; inspect hourly audit; export CSV
+“Decision Lab shows what changed between two information snapshots. The two curves use only publications available at their respective cutoffs. We can inspect the largest revisions and the publication behind each one. The separate retrospective scorecard evaluates both cutoff policies on exactly the same hours, so missing data cannot make a policy look better by changing the sample. Later information did not automatically improve MAE in this January comparison; the portal shows the result rather than assuming it.”
 
-“Actuals are hidden until we explicitly reveal hindsight. That distinction matters: traders could know the forecast before delivery, but actual generation arrives later. Now the actual hourly profile shows where delivery differed. The audit table gives the forecast's publication time and lead time for every hour. The CSV carries those same timestamps so your team can reproduce or challenge the selection.”
+### 2:15–3:15 · Decision Lab: P90 replay; change to P95
 
-### 2:45–3:40 · Switch to Forecast accuracy; show scorecards and hourly bias
+“The dashed desk scenario uses a historical error allowance. Here we test whether that allowance held up. For every decision, I freeze its information set, estimate the buffer from completed earlier delivery days only, and evaluate the following day. A P90 allowance achieved 87.8 percent observed coverage over 672 eligible hours; the first three decisions are excluded because history was insufficient. Changing to P95 shows both coverage and the reduction in assumed wind. The tradeoff matters: higher coverage alone does not establish a better procurement policy. This is a transparent historical scenario, not a guaranteed prediction bound.”
 
-“Across all 31 January decisions, we have 744 matched hourly observations. At the nine o'clock policy, the mean absolute error is around 2,039 megawatts, and root mean squared error is around 2,505. Forecast bias is positive 1,748 megawatts: the sample overforecast wind on average. Weighted absolute error is 18.07 percent. The daily chart identifies difficult days, and the hourly chart shows the direction of the miss over the delivery day. We can inspect any individual decision, or change the cutoff to compare what a later information set would have provided.”
+### 3:15–4:00 · Error atlas; audit drill-down; brief
 
-### 3:40–4:15 · Data & provenance, then Methodology
+“The error atlas locates the difficult delivery hours. Selecting one gives its exact signed error and opens the original publication audit. For the desk's decision record, I download a portable brief: selected forecasts, cutoff, historical sample, scenario, revisions, and source hashes. It includes no future actual readings and can be printed or saved as PDF. We can reproduce the exact record from its identifier.”
 
-“Every figure is backed by the two requested Elexon feeds, with retained forecast vintages, source requests, and checksums. We compare hourly forecasts with the mean of the two actual half-hours. The pilot does not have your demand, existing contracts, or portfolio allocation, so it does not claim to calculate your purchase volume. Its value is an auditable wind assumption and quantified uncertainty that your procurement process can use.”
+### 4:00–4:30 · Scope and customer value
 
-## Part 2 — internal technical review (4:15–8:50)
+“This pilot gives your team an auditable wind assumption and measured uncertainty. It does not know your demand, existing commitments, or allocated share of national wind, so it does not claim a purchase quantity or financial savings. Those are the next inputs for a portfolio-aware procurement workflow.”
 
-### 4:15–4:55 · Show architecture diagram in docs/architecture.md
+## Part 2 — technical review (4:30–9:15)
 
-“The implementation uses the requested React and Python stack: React for the portal, FastAPI for the API, pure Python for analysis, and optional MongoDB via PyMongo. Ingestion runs offline and produces a versioned real-data snapshot. Docker Compose starts MongoDB, seeds it with keyed upserts, then starts the application. A separate snapshot adapter gives a reviewer a zero-configuration mode, and the interface states which store is actually used.”
+### 4:30–5:15 · Architecture and runtime
 
-### 4:55–5:45 · Open scripts/ingest.py and server/analytics.py
+Show `docs/architecture.md`.
 
-“Ingestion calls the two stream endpoints, preserving both delivery and publication time. FUELHH is filtered to WIND. Requests have timeouts and retries; validation rejects invalid rows and conflicting duplicates. The output is replaced atomically, with raw response hashes in its metadata. The analysis engine is pure Python, separate from I/O. For every target hour, it sorts forecast vintages and takes the latest one at or before the decision cutoff.”
+“The frontend is React with Recharts. The whole backend is Python: FastAPI routes, pure analytics, ingestion, MongoDB access through PyMongo, CSV exports, and brief generation. Docker builds React in a Node stage and runs Python as a non-root user. Compose starts MongoDB, waits for health, seeds idempotently, then starts the application. Vercel serves React statically and invokes the same FastAPI app. The public pilot reports snapshot storage explicitly; the MongoDB path is exercised by CI.”
 
-### 5:45–6:35 · Show day(), metrics(), overview()
+### 5:15–6:10 · Data contract and core analysis
 
-“The source forecast is hourly, so we average the two actual half-hours instead of manufacturing half-hour forecast values. Both readings are required. Missing values remain null, valid zero generation is retained, and coverage accompanies the statistics. Error is forecast minus actual. The risk calculation has a stronger historical filter: only completed delivery days before this decision, and actuals published no later than its cutoff. With fewer than 48 pairs, there is no risk buffer.”
+Show `scripts/ingest.py` and `server/analytics.py`.
 
-### 6:35–7:15 · Open tests; run npm run check
+“Ingestion preserves target and publication times, filters FUELHH to WIND, validates values, and rejects conflicting duplicates. Both downloads must succeed before atomic snapshot replacement. Source hashes and request URLs provide provenance. WINDFOR is hourly in the extraction; actuals are half-hourly, so I compare the forecast to the mean of both actual readings. Missing data remains null, and zero remains valid. Forecast selection is per target hour with publication time at or before the chosen cutoff.”
 
-“The 31 Python tests exercise causal cutoff selection, missing half-hours, valid zeros, metric signs and units, boundary dates, actual publication times, and minimum risk history. We also verify all real snapshot selections across the offered cutoffs. API tests check validation, export audit fields, revision eligibility, and coverage. The production frontend build runs in the same check command. The MongoDB path has a separate integration check; the verification record states which checks actually ran.”
+### 6:10–7:10 · Decision Lab: fairness and temporal isolation
 
-### 7:15–8:00 · Show repository/app/frontend and deployment files
+Show `server/decision_tools.py` and the relevant tests.
 
-“The repository adapter loads and caches the fixed January dataset per process. Configured MongoDB failures are visible rather than silently replaced by snapshot data. FastAPI validates query parameters and exposes read-only routes. React keeps the decision and hindsight states explicit, handles loading and retry, and guards against older asynchronous responses overwriting newer settings. CSV calculations share the server logic. The Docker image runs non-root, and Vercel uses static React assets plus the same FastAPI ASGI app as a Python function.”
+“Cutoff policies are compared on the same target/actual cohort. The risk replay uses an expanding history of completed earlier deliveries whose actual publication was available by the decision cutoff, with at least 48 pairs. Coverage is actual wind meeting the clipped lower scenario; allowance and residual shortfall expose its tradeoff. We do not turn a pooled percentile into an unvalidated confidence claim. The brief explicitly enumerates permitted fields, rather than serializing a response containing hindsight. A test deletes future actuals and proves the report is unchanged.”
 
-### 8:00–8:50 · Return to Methodology and README
+### 7:10–8:00 · Checks and CI
 
-“The main assumptions are explicit in the product and README. January is the decision window, so the final delivery day is February first. Nine o'clock is a pilot policy, not a universal auction deadline. The Elexon series covers operationally metered wind rather than every embedded wind source. Actuals are a historical extraction, not an app-observed January archive; production replay needs observed-at timestamps and revision history. The empirical buffer needs longer, out-of-sample validation. Before purchase recommendations, we need the utility's demand, allocation, contracts, and risk policy. The README discloses AI assistance and provides startup, code-map, and deployment instructions.”
+Run `npm run check`; show the verified GitHub Actions run.
 
-## Recording checklist
+“The suite has 55 Python checks covering selection, alignment, missing and zero values, date boundaries, metric units, causal history, ingestion conflicts, API validation, CSV, fair cohorts, buffer clipping, report isolation, and escaped HTML. CI also builds the real Docker/Python/MongoDB stack, repeats the seed, and checks API results against the same snapshot calculations. During the Python migration, every monthly output and 124 day profiles were compared with the preceding implementation.”
 
-- Record a 15-second test first: readable text and clear audio.
-- Keep browser zoom around 100–110%; hide unrelated tabs and notifications.
-- Show real loading and interaction, not screenshots presented as a live demo.
-- Use two chapters: `0:00 Customer pilot` and the actual start time of the technical section.
-- Verify the final duration is at most 10 minutes and each initial overview at most 5 minutes.
-- Upload to YouTube with **Unlisted** visibility. Confirm processing and playability before submission.
-- Test the YouTube, app, and public repository URLs in a private/incognito browser while signed out.
+### 8:00–8:40 · Frontend and implementation practices
+
+Show `client/src/DecisionLab.jsx`, `server/app.py`, and deployment files.
+
+“React guards against stale asynchronous responses and exposes loading, retry, missing-history, and hindsight states. The atlas has keyboard navigation and a direct audit path. CSV and reports share backend selection logic. The report is self-contained, escaped, and script-free. Database failures do not silently change storage; credentials remain outside the repository. Vercel previews keep their access protection, while the production domain is publicly accessible.”
+
+### 8:40–9:15 · Boundaries and knowledge transfer
+
+Return to Methodology/README.
+
+“The UI takes visual cues from GridBricks by REint while remaining an independent assessment pilot. The README discloses AI assistance, documents commands and files, and links the live app. Limitations are explicit: source publication is an availability proxy, actual revision history is not independently archived, January is a short correlated evaluation sample, and policy selection after viewing it can overfit. Production work would add observed-at ingestion, longer out-of-sample validation, monitoring, access control, and utility portfolio inputs.”
+
+## Before uploading
+
+- Record a short audio/readability test first; hide unrelated tabs and notifications.
+- Show the actual working portal and code. Keep the complete video under ten minutes.
+- Upload to YouTube as **Unlisted**. Verify processing, sound, and playback.
+- Verify the exact production app, public repository, and video URLs in incognito while signed out.
+- Do not submit the form before the required video exists.

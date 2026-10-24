@@ -53,13 +53,21 @@ The visual reference is [GridBricks by REint](https://reint.ai/): Inter and Inst
 
 ## Validation and review route
 
-`npm run check` runs 31 pytest cases plus the React build. Tests cover causal selection, resolution alignment, missing and zero data, metric semantics, date boundaries, minimum history, actual publication eligibility, all snapshot policies, ingestion conflicts, API validation, revision eligibility, and CSV traceability.
+`npm run check` runs 55 pytest cases plus the React build. Tests cover causal selection, resolution alignment, missing and zero data, metric semantics, dates, history, publication eligibility, ingestion conflicts, API validation, revisions, CSV, policy-comparison cohorts, chronological buffer replay, brief isolation, and HTML escaping.
 
 Migration parity additionally compared every monthly output and 124 decision profiles over four cutoffs against the previous implementation. All matched within numeric tolerance. The old Node backend and tests were then removed.
 
 CI starts the actual Docker/Python/MongoDB stack, repeats seeding, and checks the deployed API's backend identity, record counts, metrics, and served frontend using `scripts/verify_deployment.py`.
 
 Review in this order: `scripts/ingest.py` → `server/analytics.py` → `tests/test_analytics.py` → `server/repository.py` and `scripts/seed.py` → `server/app.py` and API tests → React views → Docker/Compose/Vercel/CI configuration.
+
+## Decision Lab additions
+
+`server/decision_tools.py` composes the same analysis engine for revision comparisons, identical-cohort cutoff evaluation, and daily walk-forward validation of the empirical percentile buffer. `Analysis.historical_rows()` centralizes historical eligibility so the desk, lab, and reports share it. Forecast revision charts and briefs enumerate only as-of fields; the monthly policy comparison, heatmap, and validation chart are explicitly retrospective.
+
+`server/brief.py` renders escaped, script-free, self-contained HTML with a deterministic record ID and print styling. The API also returns the same record as JSON. A regression test removes future actuals and proves that the selected brief and risk estimate do not change. `client/src/DecisionLab.jsx` owns its comparison/confidence controls, loading/retry state, and heatmap selection. A roving tab stop and arrow-key navigation make the dense atlas usable by keyboard.
+
+See `decision-lab.md` for exact formulas, evaluation tradeoffs, and a concise demo route. Policy choice after inspecting January can overfit that sample; the app does not call the observed coverage a future guarantee.
 
 ## Production extensions
 

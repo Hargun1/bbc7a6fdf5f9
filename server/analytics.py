@@ -94,12 +94,16 @@ class Analysis:
                     byHour=[dict(hour=h, label=f"{h:02d}:00", **metrics([r for r in rows if r["hour"] == h]))
                             for h in range(24)], rows=rows)
 
+    def historical_rows(self, date, time="09:00"):
+        cutoff = cutoff_for(date, time)
+        return [r for r in self.month(time)["rows"]
+                   if r["deliveryDate"] < date and r["actualPublishTime"]
+                   and r["actualPublishTime"] <= cutoff
+                   and r["forecast"] is not None and r["actual"] is not None]
+
     def overview(self, date, time="09:00"):
         selected = self.day(date, time)
-        history = [r for r in self.month(time)["rows"]
-                   if r["deliveryDate"] < date and r["actualPublishTime"]
-                   and r["actualPublishTime"] <= selected["cutoff"]
-                   and r["forecast"] is not None and r["actual"] is not None]
+        history = self.historical_rows(date, time)
         buffer = max(0, quantile([r["error"] for r in history], .9)) if len(history) >= 48 else None
         available = [r for r in selected["rows"] if r["forecast"] is not None]
         values = [r["forecast"] for r in available]
